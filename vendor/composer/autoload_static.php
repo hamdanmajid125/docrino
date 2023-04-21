@@ -620,6 +620,7 @@ class ComposerStaticInit884af5d0ef2a59e2760792a676ffbe34
         'App\\Doctor' => __DIR__ . '/../..' . '/app/Doctor.php',
         'App\\Document' => __DIR__ . '/../..' . '/app/Document.php',
         'App\\Drug' => __DIR__ . '/../..' . '/app/Drug.php',
+        'App\\DrugType' => __DIR__ . '/../..' . '/app/DrugType.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\History' => __DIR__ . '/../..' . '/app/History.php',
         'App\\Http\\Controllers\\AppointmentController' => __DIR__ . '/../..' . '/app/Http/Controllers/AppointmentController.php',

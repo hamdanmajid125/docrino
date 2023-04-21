@@ -16,6 +16,7 @@ return array(
     'App\\Doctor' => $baseDir . '/app/Doctor.php',
     'App\\Document' => $baseDir . '/app/Document.php',
     'App\\Drug' => $baseDir . '/app/Drug.php',
+    'App\\DrugType' => $baseDir . '/app/DrugType.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\History' => $baseDir . '/app/History.php',
     'App\\Http\\Controllers\\AppointmentController' => $baseDir . '/app/Http/Controllers/AppointmentController.php',

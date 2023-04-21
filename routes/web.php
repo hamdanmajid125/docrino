@@ -16,15 +16,21 @@ use App\User;
 */
 
 Route::get('/test',function(){
-    // Permission::create(['name' => 'view appointment']);
-    // $role = Role::findByName('patient');
-    // $role->givePermissionTo('edit appointment');
+
+    $role = Role::findByName('Pharmist');
+    $role->givePermissionTo(['create prescription','view all prescriptions','view prescription']);
 
 
 });
 
 Route::get('/', function () {
-    return view('auth.login');
+    if(Auth::check()){
+        return redirect('/home');
+    }
+    else{
+        return view('auth.login');
+
+    }
 });
 
 

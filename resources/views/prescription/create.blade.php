@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-   
+
 <form method="post" action="{{ route('prescription.store') }}">
 
    <div class="row justify-content-center">
@@ -84,35 +84,38 @@ $(document).ready(function() {
 <script type="text/template" id="drugs_labels">
    <section class="field-group">
                          <div class="row">
-                             <div class="col-md-2">
-                                 <div class="form-group-custom">
-                                     <input type="text" class="form-control" name="type[]" id="task_{?}" placeholder="{{ __('sentence.Type') }}" class="ui-autocomplete-input" autocomplete="off">
-                                     <label class="control-label"></label><i class="bar"></i>
-                                 </div>
+                             <div class="col-md-4">
+                                  <select class="form-control multiselect-drug" name="trade_name[]" id="drug" tabindex="-1" aria-hidden="true" required>
+                                    <option value="">{{ __('Select Drug Type') }}...</option>
+                                    @foreach($drug_type as $drug)
+                                        <option value="{{ $drug->id }}">{{ $drug->name }}</option>
+                                    @endforeach
+                                  </select>
                              </div>
-                             <div class="col-md-6">
+                             <div class="col-md-4">
                                  <select class="form-control multiselect-drug" name="trade_name[]" id="drug" tabindex="-1" aria-hidden="true" required>
-                                   <option value="">{{ __('sentence.Select Drug') }}...</option>
-                                   @foreach($drugs as $drug)
-                                       <option value="{{ $drug->id }}">{{ $drug->trade_name }}</option>
+                                   <option value="">{{ __('Select Sick Drug Type') }}...</option>
+                                   @foreach($sick as $drug)
+                                       <option value="{{ $drug->id }}">{{ $drug->name }}</option>
                                    @endforeach
                                  </select>
                              </div>
-                            
+
                              <div class="col-md-4">
                                  <div class="form-group-custom">
                                      <input type="text" id="strength" name="strength[]"  class="form-control" placeholder="Mg/Ml">
                                  </div>
                              </div>
                          </div>
-   
+                         <br>
+
                          <div class="row">
-   
+
                              <div class="col-md-6">
                                  <div class="form-group-custom">
                                      <input type="text" id="dose" name="dose[]" class="form-control" placeholder="{{ __('sentence.Dose') }}">
                                      <label class="control-label"></label><i class="bar"></i>
-   
+
                                  </div>
                              </div>
                              <div class="col-md-6">
@@ -138,7 +141,7 @@ $(document).ready(function() {
 </script>
 <script type="text/template" id="test_labels">
                          <div class="field-group row">
-                            
+
                              <div class="col-md-4">
                                  <select class="form-control multiselect-doctorino" name="test_name[]" id="test" tabindex="-1" aria-hidden="true" required>
                                    <option value="">{{ __('sentence.Select Test') }}...</option>
@@ -147,7 +150,7 @@ $(document).ready(function() {
                                    @endforeach
                                  </select>
                              </div>
-                            
+
                              <div class="col-md-4">
                                  <div class="form-group-custom">
                                      <input type="text" id="strength" name="description[]"  class="form-control" placeholder="{{ __('sentence.Description') }}">

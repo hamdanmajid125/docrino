@@ -10,13 +10,14 @@ use App\Prescription;
 use App\Prescription_drug;
 use App\Prescription_test;
 use App\Test;
+use App\{DrugType,SickType};
 use Redirect;
 use Arr;
 use Auth;
 
 
 class PrescriptionController extends Controller{
-    
+
 
     public function __construct(){
         $this->middleware('auth');
@@ -24,12 +25,14 @@ class PrescriptionController extends Controller{
 
 
     public function create(){
-        
+
     	$drugs = Drug::all();
         $patients = User::where('role','patient')->get();
         $tests = Test::all();
+        $sick = SickType::all();
+        $drug_type = DrugType::all();
 
-    	return view('prescription.create',['drugs' => $drugs, 'patients' => $patients, 'tests' => $tests]);
+    	return view('prescription.create',['drugs' => $drugs, 'patients' => $patients, 'tests' => $tests, 'sick' => $sick,'drug_type'=>$drug_type]);
     }
 
     public function store(Request $request){
@@ -39,8 +42,8 @@ class PrescriptionController extends Controller{
 	        	'trade_name.*' => 'required',
 	    	]);
 
-        
-            
+
+
 
     	$prescription = new Prescription;
 
@@ -49,13 +52,13 @@ class PrescriptionController extends Controller{
 
         $prescription->save();
 
-     
+
     if(isset($request->trade_name)):
 
   	   	$i = count($request->trade_name);
 
   	   	for ($x = 0; $x < $i; $x++) {
-		  
+
 		  if($request->trade_name[$x] != null){
 
             $add_drug = new Prescription_drug;
@@ -100,7 +103,7 @@ class PrescriptionController extends Controller{
     }
 
     public function all(){
-        
+
         if(Auth::user()->role == 'admin' || Auth::user()->role == 'receptionist')
     	$prescriptions = Prescription::orderBy('id','DESC')->paginate(10);
         else
@@ -114,7 +117,7 @@ class PrescriptionController extends Controller{
     	$prescription = Prescription::findOrfail($id);
         $prescription_drugs = Prescription_drug::where('prescription_id' ,$id)->get();
         $prescription_tests = Prescription_test::where('prescription_id' ,$id)->get();
-    	
+
     	return view('prescription.view',['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs, 'prescription_tests' => $prescription_tests]);
     }
 
@@ -122,10 +125,10 @@ class PrescriptionController extends Controller{
 
     	$prescription = Prescription::findOrfail($id);
     	$prescription_drugs = Prescription_drug::where('prescription_id' ,$id)->get();
-    	
+
     	view()->share(['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
 
-        
+
 
         $pdf = PDF::loadView('prescription.pdf_view', ['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
         $pdf->setOption('viewport-size', '1024x768');
@@ -163,7 +166,7 @@ class PrescriptionController extends Controller{
         }
 
         foreach($prescription_drugs as $key => $dz){
-            $filtered[] = "$dz";            
+            $filtered[] = "$dz";
         }
 
 
@@ -187,9 +190,9 @@ class PrescriptionController extends Controller{
 
 
             for ($x = 0; $x < $i; $x++) {
-              
 
-               
+
+
                if(isset($request->prescription_drug_id[$x])){
 
                   Prescription_drug::where('id', $request->prescription_drug_id[$x])
@@ -199,7 +202,7 @@ class PrescriptionController extends Controller{
                                         'duration' => $request->duration[$x],
                                         'drug_advice' => $request->drug_advice[$x],
                                         'drug_id' => $request->trade_name[$x]
-                                    ]); 
+                                    ]);
 
 
                }else{
@@ -220,7 +223,7 @@ class PrescriptionController extends Controller{
             }
         endif;
 
-        // Test 
+        // Test
 
         $prescription_tests = Prescription_test::where('prescription_id' , $request->prescription_id)->pluck('id')->toArray();
 
@@ -231,7 +234,7 @@ class PrescriptionController extends Controller{
         }
 
         foreach($prescription_tests as $key => $fr){
-            $filtered_test[] = "$fr";            
+            $filtered_test[] = "$fr";
         }
 
 
@@ -253,15 +256,15 @@ class PrescriptionController extends Controller{
 
 
             for ($x = 0; $x < $i; $x++) {
-              
 
-               
+
+
                if(isset($request->prescription_test_id[$x])){
 
                   Prescription_test::where('id', $request->prescription_test_id[$x])
                             ->update(['description' => $request->description[$x],
                                         'test_id' => $request->test_name[$x]
-                                    ]); 
+                                    ]);
 
 
                }else{

@@ -35,22 +35,17 @@ class UsersController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-
         ]);
 
         $user = new User();
         $user->password = Hash::make($request->password);
         $user->email = $request->email;
+        $user->role = $request->role;
+        $user->phone = $request->phone;
         $user->name = $request->name;
         $user->save();
 
 
-        $patient = new Patient();
-        $patient->user_id = $user->id;
-        $patient->phone = $request->phone;
-        $patient->gender = $request->gender;
-        $patient->birthday = '00-00-0000';
-        $patient->save();
 
         $user->assignRole($request->role);
 
