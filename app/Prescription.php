@@ -9,6 +9,7 @@ class Prescription extends Model
 
 	protected $table = 'prescriptions';
 
+    protected $fillable = ['advices','drug_type_id','user_id','sick_type_id','capacity','dose'];
     public function User(){
     	        return $this->hasOne('App\User', 'id', 'user_id');
     }

@@ -666,6 +666,7 @@ class ComposerStaticInit884af5d0ef2a59e2760792a676ffbe34
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Schedule' => __DIR__ . '/../..' . '/app/Schedule.php',
         'App\\Setting' => __DIR__ . '/../..' . '/app/Setting.php',
+        'App\\SickType' => __DIR__ . '/../..' . '/app/SickType.php',
         'App\\Test' => __DIR__ . '/../..' . '/app/Test.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',

@@ -62,6 +62,7 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Schedule' => $baseDir . '/app/Schedule.php',
     'App\\Setting' => $baseDir . '/app/Setting.php',
+    'App\\SickType' => $baseDir . '/app/SickType.php',
     'App\\Test' => $baseDir . '/app/Test.php',
     'App\\User' => $baseDir . '/app/User.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Cors.php',

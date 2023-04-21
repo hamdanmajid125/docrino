@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2023 at 04:21 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.4.23
+-- Generation Time: Apr 21, 2023 at 10:04 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,10 +31,10 @@ CREATE TABLE `appointments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `date` date NOT NULL,
-  `time_start` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `time_end` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `visited` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reason` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `time_start` varchar(191) NOT NULL,
+  `time_end` varchar(191) NOT NULL,
+  `visited` varchar(191) NOT NULL,
+  `reason` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -48,16 +48,16 @@ CREATE TABLE `appointments` (
 CREATE TABLE `billings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `payment_mode` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `payment_status` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reference` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_mode` varchar(191) DEFAULT NULL,
+  `payment_status` varchar(191) DEFAULT NULL,
+  `reference` varchar(191) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `due_amount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `deposited_amount` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `vat` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `total_without_tax` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `total_with_tax` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `due_amount` varchar(191) DEFAULT NULL,
+  `deposited_amount` varchar(191) DEFAULT NULL,
+  `vat` varchar(191) DEFAULT NULL,
+  `total_without_tax` varchar(191) DEFAULT NULL,
+  `total_with_tax` varchar(191) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -69,8 +69,8 @@ CREATE TABLE `billings` (
 CREATE TABLE `billing_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `billing_id` bigint(20) UNSIGNED NOT NULL,
-  `invoice_title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `invoice_amount` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoice_title` varchar(191) NOT NULL,
+  `invoice_amount` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -89,7 +89,7 @@ CREATE TABLE `bookings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 0,
-  `reason` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reason` text DEFAULT NULL,
   `confirm` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -109,7 +109,7 @@ INSERT INTO `bookings` (`id`, `doctor_id`, `date`, `patient_id`, `created_at`, `
 
 CREATE TABLE `departments` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -131,14 +131,14 @@ INSERT INTO `departments` (`id`, `name`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `doctors` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `speciality` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `qualification` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `blood_group` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `speciality` varchar(191) DEFAULT NULL,
+  `qualification` varchar(191) DEFAULT NULL,
+  `blood_group` varchar(191) DEFAULT NULL,
   `depart_id` bigint(20) UNSIGNED NOT NULL,
-  `weight` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `height` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `designiation` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `per_patient_time` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `weight` varchar(191) DEFAULT NULL,
+  `height` varchar(191) DEFAULT NULL,
+  `designiation` varchar(191) DEFAULT NULL,
+  `per_patient_time` varchar(191) DEFAULT NULL,
   `available_on` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`available_on`)),
   `available_from` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`available_from`)),
   `available_to` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`available_to`)),
@@ -162,10 +162,10 @@ INSERT INTO `doctors` (`id`, `user_id`, `speciality`, `qualification`, `blood_gr
 CREATE TABLE `documents` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `note` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(191) NOT NULL,
+  `document_type` varchar(191) DEFAULT NULL,
+  `file` mediumtext DEFAULT NULL,
+  `note` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -178,12 +178,46 @@ CREATE TABLE `documents` (
 
 CREATE TABLE `drugs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `trade_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `generic_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `note` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `trade_name` varchar(191) NOT NULL,
+  `generic_name` varchar(191) NOT NULL,
+  `note` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `drugs`
+--
+
+INSERT INTO `drugs` (`id`, `trade_name`, `generic_name`, `note`, `created_at`, `updated_at`) VALUES
+(1, 'Panadol', 'panadol', NULL, '2023-04-20 17:10:31', '2023-04-20 17:10:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `drug_type`
+--
+
+CREATE TABLE `drug_type` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `drug_type`
+--
+
+INSERT INTO `drug_type` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'HEROIN', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(2, 'COCAINE', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(3, 'CANNIBIS', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(4, 'ECSTACY/E-TABLETS', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(5, 'SOLVENTS', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(6, 'MAGIC MUSHROOMS', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(7, 'ALCOHOL', '2023-04-20 18:18:40', '2023-04-20 18:18:40'),
+(8, 'HEAD SHOP PRODUCTS', '2023-04-20 18:18:40', '2023-04-20 18:18:40');
 
 -- --------------------------------------------------------
 
@@ -193,10 +227,10 @@ CREATE TABLE `drugs` (
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -209,8 +243,8 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `historys` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `note` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(191) DEFAULT NULL,
+  `note` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -223,7 +257,7 @@ CREATE TABLE `historys` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(191) NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -258,7 +292,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2023_04_13_232706_add_new_status_to_bookings', 1),
 (25, '2023_04_13_233132_add_new_reason_to_bookings', 1),
 (26, '2023_04_16_110901_add_reason_to_bookings', 2),
-(27, '2023_04_16_113450_add_new_visit_to_bookings', 3);
+(27, '2023_04_16_113450_add_new_visit_to_bookings', 3),
+(28, '2023_04_20_230954_create_drug_type_table', 4),
+(29, '2023_04_20_232604_create_sick_type_table', 5),
+(30, '2023_04_21_191250_add_paid_to_prescriptions', 6);
 
 -- --------------------------------------------------------
 
@@ -268,7 +305,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `model_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(191) NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -280,7 +317,7 @@ CREATE TABLE `model_has_permissions` (
 
 CREATE TABLE `model_has_roles` (
   `role_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_type` varchar(191) NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -292,7 +329,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\User', 1),
 (2, 'App\\User', 3),
 (2, 'App\\User', 4),
-(3, 'App\\User', 2);
+(3, 'App\\User', 2),
+(4, 'App\\User', 6);
 
 -- --------------------------------------------------------
 
@@ -301,8 +339,8 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) NOT NULL,
+  `token` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -316,12 +354,12 @@ CREATE TABLE `patients` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `birthday` date NOT NULL,
-  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `blood` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `adress` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `weight` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `height` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(191) DEFAULT NULL,
+  `gender` varchar(191) NOT NULL,
+  `blood` varchar(191) DEFAULT NULL,
+  `adress` mediumtext DEFAULT NULL,
+  `weight` varchar(191) DEFAULT NULL,
+  `height` varchar(191) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -342,8 +380,8 @@ INSERT INTO `patients` (`id`, `user_id`, `birthday`, `phone`, `gender`, `blood`,
 
 CREATE TABLE `permissions` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) NOT NULL,
+  `guard_name` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -389,7 +427,10 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 (34, 'print invoice', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38'),
 (35, 'manage settings', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38'),
 (36, 'manage roles', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38'),
-(38, 'view appointment', 'web', '2023-04-16 21:03:02', '2023-04-16 21:03:02');
+(38, 'view appointment', 'web', '2023-04-16 21:03:02', '2023-04-16 21:03:02'),
+(39, 'view doctor', 'web', '2023-04-20 16:35:51', '2023-04-20 16:35:51'),
+(40, 'edit doctor', 'web', '2023-04-20 16:35:51', '2023-04-20 16:35:51'),
+(41, 'create doctor', 'web', '2023-04-20 16:35:51', '2023-04-20 16:35:51');
 
 -- --------------------------------------------------------
 
@@ -400,10 +441,13 @@ INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at
 CREATE TABLE `prescriptions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `reference` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `advices` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `advices` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `drug_type_id` int(11) NOT NULL,
+  `sick_type_id` int(11) NOT NULL,
+  `capacity` varchar(191) NOT NULL,
+  `dose` varchar(191) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -416,11 +460,11 @@ CREATE TABLE `prescription_drugs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `prescription_id` bigint(20) UNSIGNED NOT NULL,
   `drug_id` bigint(20) UNSIGNED NOT NULL,
-  `type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `strength` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `dose` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `duration` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `drug_advice` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` varchar(191) DEFAULT NULL,
+  `strength` varchar(191) DEFAULT NULL,
+  `dose` varchar(191) DEFAULT NULL,
+  `duration` varchar(191) DEFAULT NULL,
+  `drug_advice` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -435,7 +479,7 @@ CREATE TABLE `prescription_tests` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `prescription_id` bigint(20) UNSIGNED NOT NULL,
   `test_id` bigint(20) UNSIGNED NOT NULL,
-  `description` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -448,8 +492,8 @@ CREATE TABLE `prescription_tests` (
 
 CREATE TABLE `roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) NOT NULL,
+  `guard_name` varchar(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -461,7 +505,8 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38'),
 (2, 'Patient', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38'),
-(3, 'Doctor', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38');
+(3, 'Doctor', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38'),
+(4, 'Pharmist', 'web', '2023-04-14 01:27:38', '2023-04-14 01:27:38');
 
 -- --------------------------------------------------------
 
@@ -496,16 +541,23 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (13, 2),
 (13, 3),
 (14, 1),
+(14, 4),
 (15, 1),
+(15, 4),
 (16, 1),
+(16, 4),
 (17, 1),
 (18, 1),
 (19, 1),
 (20, 1),
+(20, 4),
 (21, 1),
+(21, 4),
 (22, 1),
+(22, 4),
 (23, 1),
 (24, 1),
+(24, 4),
 (25, 1),
 (26, 1),
 (27, 1),
@@ -518,7 +570,8 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (34, 1),
 (35, 1),
 (36, 1),
-(38, 2);
+(38, 2),
+(39, 4);
 
 -- --------------------------------------------------------
 
@@ -529,7 +582,7 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 CREATE TABLE `schedules` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `doctor_id` bigint(20) UNSIGNED NOT NULL,
-  `day` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `day` varchar(191) NOT NULL,
   `from` time NOT NULL,
   `to` time NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -544,8 +597,8 @@ CREATE TABLE `schedules` (
 
 CREATE TABLE `settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `option_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `option_value` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `option_name` varchar(191) NOT NULL,
+  `option_value` longtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -581,13 +634,35 @@ INSERT INTO `settings` (`id`, `option_name`, `option_value`, `created_at`, `upda
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sick_type`
+--
+
+CREATE TABLE `sick_type` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sick_type`
+--
+
+INSERT INTO `sick_type` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Heart', '2023-04-20 18:29:15', '2023-04-20 18:29:15'),
+(2, 'Stomach', '2023-04-20 18:29:15', '2023-04-20 18:29:15'),
+(3, 'Headache', '2023-04-20 18:29:15', '2023-04-20 18:29:15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tests`
 --
 
 CREATE TABLE `tests` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `test_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `comment` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `test_name` varchar(191) NOT NULL,
+  `comment` mediumtext DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -600,17 +675,17 @@ CREATE TABLE `tests` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(191) NOT NULL,
+  `email` varchar(191) NOT NULL,
+  `phone` varchar(191) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
-  `gender` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Female',
-  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(191) NOT NULL DEFAULT 'Female',
+  `address` text DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'patient',
-  `image` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(191) NOT NULL,
+  `role` varchar(191) NOT NULL DEFAULT 'patient',
+  `image` varchar(191) DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -623,7 +698,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `phone`, `birthday`, `gender`, `addr
 (1, 'Doctorino', 'doctor@getdoctorino.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$O0Ujfn8ebYue6UURPKZX2upw5NSbbeUj9ilZcgWEGg0wl7krL/Hb2', 'admin', NULL, NULL, '2023-04-14 01:27:39', '2023-04-14 01:27:39'),
 (2, 'Oliver Lowe', 'xirahaxuxu@mailinator.com', '+1 (851) 684-5237', '1986-09-04', 'Male', 'Molestiae commodo in', NULL, '$2y$10$yjN33Nri3LlI0fVfAJ/be.qru13441rk8opP2kqcCmrq8A20zc5xS', 'doctor', NULL, NULL, '2023-04-14 01:42:02', '2023-04-14 01:42:02'),
 (3, 'Travis Spencer', 'zuhypuv@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$.VCLCVv7X6eVletfUqrW/ugah2DeJXXwot7dDJ/iILo7ZK4m0VapW', 'patient', '', NULL, '2023-04-14 01:43:13', '2023-04-14 01:43:13'),
-(4, 'Randall Whitehead', 'mapawydo@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$ojX.KWrZnCymfw8B/Z0A..MhuJCNVjxqlBq070AN81Di6SxOA/E1.', 'patient', 'Pm2dY4OPnF2DASK-patient.jpg', NULL, '2023-04-16 19:40:52', '2023-04-16 19:40:52');
+(4, 'Randall Whitehead', 'mapawydo@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$ojX.KWrZnCymfw8B/Z0A..MhuJCNVjxqlBq070AN81Di6SxOA/E1.', 'patient', 'Pm2dY4OPnF2DASK-patient.jpg', NULL, '2023-04-16 19:40:52', '2023-04-16 19:40:52'),
+(6, 'Pharmist1', 'pharmist@mail.com', '+1 (287) 121-9006', NULL, 'Female', NULL, NULL, '$2y$10$REUNPG1T1xPjoIvh.1WmMeP2GbtkC9kDTUY5MNW85qeRRydwHeGeC', 'Pharmist', NULL, NULL, '2023-04-20 16:22:44', '2023-04-20 16:22:44');
 
 --
 -- Indexes for dumped tables
@@ -680,6 +756,12 @@ ALTER TABLE `documents`
 -- Indexes for table `drugs`
 --
 ALTER TABLE `drugs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `drug_type`
+--
+ALTER TABLE `drug_type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -785,6 +867,12 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sick_type`
+--
+ALTER TABLE `sick_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tests`
 --
 ALTER TABLE `tests`
@@ -847,7 +935,13 @@ ALTER TABLE `documents`
 -- AUTO_INCREMENT for table `drugs`
 --
 ALTER TABLE `drugs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `drug_type`
+--
+ALTER TABLE `drug_type`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -865,7 +959,7 @@ ALTER TABLE `historys`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `patients`
@@ -877,7 +971,7 @@ ALTER TABLE `patients`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `prescriptions`
@@ -901,7 +995,7 @@ ALTER TABLE `prescription_tests`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `schedules`
@@ -916,6 +1010,12 @@ ALTER TABLE `settings`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
+-- AUTO_INCREMENT for table `sick_type`
+--
+ALTER TABLE `sick_type`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `tests`
 --
 ALTER TABLE `tests`
@@ -925,7 +1025,7 @@ ALTER TABLE `tests`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
