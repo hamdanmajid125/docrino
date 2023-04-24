@@ -10,162 +10,165 @@ use App\Prescription;
 use App\Prescription_drug;
 use App\Prescription_test;
 use App\Test;
-use App\{DrugType,SickType};
+use App\{DrugType, SickType};
 use Redirect;
 use Arr;
 use Auth;
 
 
-class PrescriptionController extends Controller{
+class PrescriptionController extends Controller
+{
 
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
 
-    public function create(){
+    public function create()
+    {
 
-    	$drugs = Drug::all();
-        $patients = User::where('role','patient')->get();
+        $drugs = Drug::all();
+        $patients = User::where('role', 'patient')->get();
         $tests = Test::all();
         $sick = SickType::all();
         $drug_type = DrugType::all();
 
-    	return view('prescription.create',['drugs' => $drugs, 'patients' => $patients, 'tests' => $tests, 'sick' => $sick,'drug_type'=>$drug_type]);
+        return view('prescription.create', ['drugs' => $drugs, 'patients' => $patients, 'tests' => $tests, 'sick' => $sick, 'drug_type' => $drug_type]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
+      
 
-	     $validatedData = $request->validate([
-	        	'patient_id' => ['required','exists:users,id'],
-	        	'trade_name.*' => 'required',
-	    	]);
+        $validatedData = $request->validate([
+            'patient_id' => ['required', 'exists:users,id']
+        ]);
 
 
 
 
-    	$prescription = new Prescription;
+        $prescription = new Prescription;
 
         $prescription->user_id = $request->patient_id;
-        $prescription->reference = 'p'.rand(10000,99999);
+        $prescription->reference = 'p' . rand(10000, 99999);
 
         $prescription->save();
 
 
-    if(isset($request->trade_name)):
+        if (isset($request->druginfo)) :
 
-  	   	$i = count($request->trade_name);
+            $i = count($request->druginfo['drug_type']);
 
-  	   	for ($x = 0; $x < $i; $x++) {
+            for ($x = 0; $x < $i; $x++) {
 
-		  if($request->trade_name[$x] != null){
+                if ($request->druginfo != null) {
 
-            $add_drug = new Prescription_drug;
+                    $add_drug = new Prescription_drug;
+                    $add_drug->type = $request->druginfo['drug_type'][$x];
+                    $add_drug->sick_type_id = $request->druginfo['sick_type'][$x];
+                    $add_drug->strength = $request->druginfo['strength'][$x];
+                    $add_drug->dose = $request->druginfo['dose'][$x];
+                    $add_drug->duration = $request->druginfo['duration'][$x];
+                    $add_drug->drug_advice = $request->druginfo['drug_advice'][$x];
+                    $add_drug->prescription_id = $prescription->id;
+                    $add_drug->drug_id = $request->druginfo['trade_name'][$x];
 
-            $add_drug->type = $request->type[$x];
-            $add_drug->strength = $request->strength[$x];
-            $add_drug->dose = $request->dose[$x];
-            $add_drug->duration = $request->duration[$x];
-            $add_drug->drug_advice = $request->drug_advice[$x];
-            $add_drug->prescription_id = $prescription->id;
-            $add_drug->drug_id = $request->trade_name[$x];
+                    $add_drug->save();
+                }
+            }
+        endif;
 
-            $add_drug->save();
+        if (isset($request->test_name)) :
 
-          }
+            $y = count($request->test['test_name']);
 
-        }
-    endif;
+            for ($x = 0; $x < $y; $x++) {
 
-    if(isset($request->test_name)):
+                $add_test = new Prescription_test;
 
-        $y = count($request->test_name);
+                $add_test->test_id = $request->test['test_name'][$x];
+                $add_test->prescription_id = $prescription->id;
+                $add_test->description = $request->test['description'][$x];
 
-        for ($x = 0; $x < $y; $x++) {
+                $add_test->save();
+            }
 
-            $add_test = new Prescription_test;
+        endif;
 
-            $add_test->test_id = $request->test_name[$x];
-            $add_test->prescription_id = $prescription->id;
-            $add_test->description = $request->description[$x];
-
-            $add_test->save();
-
-		}
-
-    endif;
-
-		return Redirect::route('prescription.all')->with('success', 'Prescription Created Successfully!');;
-
-
-
+        return Redirect::route('prescription.all')->with('success', 'Prescription Created Successfully!');;
     }
 
-    public function all(){
+    public function all()
+    {
 
-        if(Auth::user()->role == 'admin' || Auth::user()->role == 'receptionist')
-    	$prescriptions = Prescription::orderBy('id','DESC')->paginate(10);
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'receptionist' || Auth::user()->role == 'Pharmist')
+            $prescriptions = Prescription::orderBy('id', 'DESC')->paginate(10);
         else
-        $prescriptions = Prescription::where('user_id',Auth::id())->orderBy('id','DESC')->paginate(10);
+            $prescriptions = Prescription::where('user_id', Auth::id())->orderBy('id', 'DESC')->paginate(10);
 
-    	return view('prescription.all',['prescriptions' => $prescriptions]);
+        return view('prescription.all', ['prescriptions' => $prescriptions]);
     }
 
-    public function view($id){
+    public function view($id)
+    {
 
-    	$prescription = Prescription::findOrfail($id);
-        $prescription_drugs = Prescription_drug::where('prescription_id' ,$id)->get();
-        $prescription_tests = Prescription_test::where('prescription_id' ,$id)->get();
+        $prescription = Prescription::findOrfail($id);
+        $prescription_drugs = Prescription_drug::where('prescription_id', $id)->get();
+        $prescription_tests = Prescription_test::where('prescription_id', $id)->get();
 
-    	return view('prescription.view',['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs, 'prescription_tests' => $prescription_tests]);
+        return view('prescription.view', ['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs, 'prescription_tests' => $prescription_tests]);
     }
 
-    public function pdf($id){
+    public function pdf($id)
+    {
 
-    	$prescription = Prescription::findOrfail($id);
-    	$prescription_drugs = Prescription_drug::where('prescription_id' ,$id)->get();
+        $prescription = Prescription::findOrfail($id);
+        $prescription_drugs = Prescription_drug::where('prescription_id', $id)->get();
 
-    	view()->share(['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
+        view()->share(['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
 
 
 
         $pdf = PDF::loadView('prescription.pdf_view', ['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
         $pdf->setOption('viewport-size', '1024x768');
-      // download PDF file with download method
-      return $pdf->download($prescription->User->name.'_pdf.pdf');
+        // download PDF file with download method
+        return $pdf->download($prescription->User->name . '_pdf.pdf');
     }
 
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $prescription = Prescription::findOrfail($id);
-        $prescription_drugs = Prescription_drug::where('prescription_id' ,$id)->get();
-        $prescription_tests = Prescription_test::where('prescription_id' ,$id)->get();
+        $prescription_drugs = Prescription_drug::where('prescription_id', $id)->get();
+        $prescription_tests = Prescription_test::where('prescription_id', $id)->get();
 
         $drugs = Drug::all();
         $tests = Test::all();
 
-        return view('prescription.edit',['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs, 'prescription_tests' => $prescription_tests,'drugs' => $drugs, 'tests' => $tests]);
+        return view('prescription.edit', ['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs, 'prescription_tests' => $prescription_tests, 'drugs' => $drugs, 'tests' => $tests]);
     }
 
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
 
-         $validatedData = $request->validate([
-                'patient_id' => ['required','exists:users,id'],
-                'trade_name.*' => 'required',
+        $validatedData = $request->validate([
+            'patient_id' => ['required', 'exists:users,id'],
+            'trade_name.*' => 'required',
         ]);
 
-        $prescription_drugs = Prescription_drug::where('prescription_id' , $request->prescription_id)->pluck('id')->toArray();
+        $prescription_drugs = Prescription_drug::where('prescription_id', $request->prescription_id)->pluck('id')->toArray();
 
-        if($request->has('prescription_drug_id')){
+        if ($request->has('prescription_drug_id')) {
             $filtered = $request->prescription_drug_id;
-        }else{
+        } else {
             $filtered = [];
         }
 
-        foreach($prescription_drugs as $key => $dz){
+        foreach ($prescription_drugs as $key => $dz) {
             $filtered[] = "$dz";
         }
 
@@ -175,16 +178,15 @@ class PrescriptionController extends Controller{
 
         $deleted_drugs = array_count_values($filtered);
 
-        foreach($deleted_drugs as $key => $value)
-            if($value < 2){
+        foreach ($deleted_drugs as $key => $value)
+            if ($value < 2) {
                 $new_array[] = $key;
 
                 Prescription_drug::destroy($key);
-
             }
 
 
-        if(isset($request->trade_name)):
+        if (isset($request->trade_name)) :
 
             $i = count($request->trade_name);
 
@@ -193,19 +195,18 @@ class PrescriptionController extends Controller{
 
 
 
-               if(isset($request->prescription_drug_id[$x])){
+                if (isset($request->prescription_drug_id[$x])) {
 
-                  Prescription_drug::where('id', $request->prescription_drug_id[$x])
-                            ->update(['type' => $request->type[$x],
-                                        'strength' => $request->strength[$x],
-                                        'dose' => $request->dose[$x],
-                                        'duration' => $request->duration[$x],
-                                        'drug_advice' => $request->drug_advice[$x],
-                                        'drug_id' => $request->trade_name[$x]
-                                    ]);
-
-
-               }else{
+                    Prescription_drug::where('id', $request->prescription_drug_id[$x])
+                        ->update([
+                            'type' => $request->type[$x],
+                            'strength' => $request->strength[$x],
+                            'dose' => $request->dose[$x],
+                            'duration' => $request->duration[$x],
+                            'drug_advice' => $request->drug_advice[$x],
+                            'drug_id' => $request->trade_name[$x]
+                        ]);
+                } else {
                     $add_drug = new Prescription_drug;
 
                     $add_drug->type = $request->type[$x];
@@ -217,23 +218,21 @@ class PrescriptionController extends Controller{
                     $add_drug->drug_id = $request->trade_name[$x];
 
                     $add_drug->save();
-               }
-
-
+                }
             }
         endif;
 
         // Test
 
-        $prescription_tests = Prescription_test::where('prescription_id' , $request->prescription_id)->pluck('id')->toArray();
+        $prescription_tests = Prescription_test::where('prescription_id', $request->prescription_id)->pluck('id')->toArray();
 
-        if($request->has('prescription_test_id')){
+        if ($request->has('prescription_test_id')) {
             $filtered_test = $request->prescription_test_id;
-        }else{
+        } else {
             $filtered_test = [];
         }
 
-        foreach($prescription_tests as $key => $fr){
+        foreach ($prescription_tests as $key => $fr) {
             $filtered_test[] = "$fr";
         }
 
@@ -243,14 +242,14 @@ class PrescriptionController extends Controller{
 
         $deleted_tests = array_count_values($filtered_test);
 
-        foreach($deleted_tests as $key => $value)
-            if($value < 2){
+        foreach ($deleted_tests as $key => $value)
+            if ($value < 2) {
                 //$new_array[] = $key;
                 Prescription_test::destroy($key);
             }
 
 
-        if(isset($request->test_name)):
+        if (isset($request->test_name)) :
 
             $i = count($request->test_name);
 
@@ -259,47 +258,45 @@ class PrescriptionController extends Controller{
 
 
 
-               if(isset($request->prescription_test_id[$x])){
+                if (isset($request->prescription_test_id[$x])) {
 
-                  Prescription_test::where('id', $request->prescription_test_id[$x])
-                            ->update(['description' => $request->description[$x],
-                                        'test_id' => $request->test_name[$x]
-                                    ]);
-
-
-               }else{
+                    Prescription_test::where('id', $request->prescription_test_id[$x])
+                        ->update([
+                            'description' => $request->description[$x],
+                            'test_id' => $request->test_name[$x]
+                        ]);
+                } else {
                     $add_test = new Prescription_test;
                     $add_test->description = $request->description[$x];
                     $add_test->prescription_id = $request->prescription_id;
                     $add_test->test_id = $request->test_name[$x];
 
                     $add_test->save();
-               }
-
-
+                }
             }
         endif;
 
-        return Redirect::route('prescription.view',['id' => $request->prescription_id])->with('success', 'Prescription Edited Successfully!');;
+        return Redirect::route('prescription.view', ['id' => $request->prescription_id])->with('success', 'Prescription Edited Successfully!');;
 
         //return $request;
 
     }
 
 
-    public function destroy($id){
+    public function destroy($id)
+    {
 
         Prescription::destroy($id);
         return Redirect::route('prescription.all')->with('success', 'Prescription Deleted Successfully!');;
-
     }
 
 
-    public function view_for_user(Request $request,$id){
+    public function view_for_user(Request $request, $id)
+    {
 
         $User = User::findOrfail($id);
 
-        $prescriptions = Prescription::where('user_id',$id)->paginate(10);
+        $prescriptions = Prescription::where('user_id', $id)->paginate(10);
         return view('prescription.view_for_user', ['prescriptions' => $prescriptions]);
     }
 }

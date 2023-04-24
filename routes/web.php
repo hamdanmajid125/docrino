@@ -18,7 +18,7 @@ use App\User;
 Route::get('/test',function(){
 
     $role = Role::findByName('Pharmist');
-    $role->givePermissionTo(['create prescription','view all prescriptions','view prescription']);
+    $role->givePermissionTo('edit prescription');
 
 
 });
