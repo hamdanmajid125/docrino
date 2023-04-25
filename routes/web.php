@@ -129,6 +129,9 @@ Route::post('/prescription/update', 'PrescriptionController@update')->name('pres
 
 //Doctor
 Route::resource('doctor', 'DoctorController');
+Route::resource('request-furniture', 'FurnitureRequestController');
+Route::post('request-furniture/changestatus', 'FurnitureRequestController@changestautsrequest')->name('changestautsrequest');
+
 Route::resource('stock', 'StockController');
 Route::resource('stock-category', 'StockCategoryController');
 Route::resource('schedule', 'ScheduleController');

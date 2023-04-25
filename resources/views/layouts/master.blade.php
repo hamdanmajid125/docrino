@@ -239,8 +239,7 @@
                                         href="{{ route('stock.create') }}">{{ __('Add Stock') }}</a>
                                 @endcan
                                 @can('view all stock')
-                                    <a class="collapse-item"
-                                        href="{{ route('stock.index') }}">{{ __('All Stock') }}</a>
+                                    <a class="collapse-item" href="{{ route('stock.index') }}">{{ __('All Stock') }}</a>
                                 @endcan
                             </div>
                         </div>
@@ -354,6 +353,33 @@
                         </div>
                     </li>
                 @endif
+
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider">
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        {{ __('Requests') }}
+                    </div>
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseRequest"
+                            aria-expanded="true" aria-controls="collapseSettings">
+                            <i class="fas fa-fw fa-cogs"></i>
+                            <span>{{ __('Request for Furniture') }}</span>
+                        </a>
+                        <div id="collapseRequest" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="{{ route('request-furniture.index') }}">All
+                                    Request</a>
+                                @unlessrole('Supervisor')
+                                    <a class="collapse-item" href="{{ route('request-furniture.create') }}">Request for
+                                        Furniture</a>
+                                @endunlessrole
+                            </div>
+                        </div>
+                    </li>
 
                 @if (Auth::user()->can('manage settings'))
                     <!-- Divider -->

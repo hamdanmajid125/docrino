@@ -43,18 +43,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="Name" class="col-sm-3 col-form-label"><?php echo e(__('Stock Category')); ?><font
-                                    color="red">*</font></label>
-                            <div class="col-sm-9">
-                                <select name="category" class="form-control" id="">
-                                    <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($item->id); ?>"
-                                            <?php echo e(($data)?($item->id == $data->assigned_to ? 'selected' : ''):''); ?>><?php echo e($item->name); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="form-group row ">
                             <button class="btn btn-primary mx-auto w-50 " type="submit">Save</button>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 02:55 AM
+-- Generation Time: Apr 26, 2023 at 01:37 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -298,7 +298,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (29, '2023_04_20_232604_create_sick_type_table', 5),
 (30, '2023_04_21_191250_add_paid_to_prescriptions', 6),
 (31, '2023_04_24_200310_create_stocks_table', 7),
-(32, '2023_04_24_200730_create_stock_categories_table', 8);
+(32, '2023_04_24_200730_create_stock_categories_table', 8),
+(33, '2023_04_25_183831_request_furniture', 9),
+(34, '2023_04_25_184925_add_qty_to_request_furniture', 10);
 
 -- --------------------------------------------------------
 
@@ -517,6 +519,32 @@ INSERT INTO `prescription_tests` (`id`, `prescription_id`, `test_id`, `descripti
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `request_furniture`
+--
+
+CREATE TABLE `request_furniture` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `approved` tinyint(1) NOT NULL DEFAULT 0,
+  `stock_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `request_furniture`
+--
+
+INSERT INTO `request_furniture` (`id`, `user_id`, `approved`, `stock_id`, `created_at`, `updated_at`, `qty`) VALUES
+(1, 1, 0, 1, '2023-04-25 14:49:05', '2023-04-25 16:07:33', 12),
+(2, 1, 0, 1, '2023-04-25 14:51:33', '2023-04-25 16:07:34', 12),
+(3, 1, 1, 1, '2023-04-25 14:54:19', '2023-04-25 16:07:32', 12),
+(4, 6, 0, 1, '2023-04-25 16:54:52', '2023-04-25 16:54:52', 34);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `roles`
 --
 
@@ -704,7 +732,6 @@ CREATE TABLE `stocks` (
   `name` varchar(191) NOT NULL,
   `stock_category_id` bigint(20) UNSIGNED NOT NULL,
   `qty` int(11) NOT NULL,
-  `assigned_to` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -713,8 +740,8 @@ CREATE TABLE `stocks` (
 -- Dumping data for table `stocks`
 --
 
-INSERT INTO `stocks` (`id`, `name`, `stock_category_id`, `qty`, `assigned_to`, `created_at`, `updated_at`) VALUES
-(1, 'Lani Hunter', 1, 708, 1, '2023-04-24 17:06:41', '2023-04-24 17:06:41');
+INSERT INTO `stocks` (`id`, `name`, `stock_category_id`, `qty`, `created_at`, `updated_at`) VALUES
+(1, 'Lani Hunter Table', 1, 708, '2023-04-24 17:06:41', '2023-04-24 17:06:41');
 
 -- --------------------------------------------------------
 
@@ -937,6 +964,12 @@ ALTER TABLE `prescription_tests`
   ADD KEY `prescription_tests_test_id_foreign` (`test_id`);
 
 --
+-- Indexes for table `request_furniture`
+--
+ALTER TABLE `request_furniture`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `roles`
 --
 ALTER TABLE `roles`
@@ -1067,7 +1100,7 @@ ALTER TABLE `historys`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `patients`
@@ -1098,6 +1131,12 @@ ALTER TABLE `prescription_drugs`
 --
 ALTER TABLE `prescription_tests`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `request_furniture`
+--
+ALTER TABLE `request_furniture`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `roles`

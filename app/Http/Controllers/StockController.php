@@ -47,7 +47,6 @@ class StockController extends Controller
         $stock->stock_category_id = $request->input('category');
         $stock->qty = $request->input('qty');
         $stock->name = $request->input('name');
-        $stock->assigned_to = $request->input('user_id');
         $stock->save();
         return Redirect::route('stock.index')->with('success', 'New stock has been added');;
 

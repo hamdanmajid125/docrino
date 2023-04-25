@@ -243,8 +243,7 @@
                                         href="<?php echo e(route('stock.create')); ?>"><?php echo e(__('Add Stock')); ?></a>
                                 <?php endif; ?>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view all stock')): ?>
-                                    <a class="collapse-item"
-                                        href="<?php echo e(route('stock.index')); ?>"><?php echo e(__('All Stock')); ?></a>
+                                    <a class="collapse-item" href="<?php echo e(route('stock.index')); ?>"><?php echo e(__('All Stock')); ?></a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -360,6 +359,34 @@
                         </div>
                     </li>
                 <?php endif; ?>
+
+
+                    <!-- Divider -->
+                    <hr class="sidebar-divider">
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        <?php echo e(__('Requests')); ?>
+
+                    </div>
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseRequest"
+                            aria-expanded="true" aria-controls="collapseSettings">
+                            <i class="fas fa-fw fa-cogs"></i>
+                            <span><?php echo e(__('Request for Furniture')); ?></span>
+                        </a>
+                        <div id="collapseRequest" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <a class="collapse-item" href="<?php echo e(route('request-furniture.index')); ?>">All
+                                    Request</a>
+                                <?php if(!auth()->check() || ! auth()->user()->hasRole('Supervisor')): ?>
+                                    <a class="collapse-item" href="<?php echo e(route('request-furniture.create')); ?>">Request for
+                                        Furniture</a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </li>
 
                 <?php if(Auth::user()->can('manage settings')): ?>
                     <!-- Divider -->

@@ -24,6 +24,7 @@
                             <input type="text" name="name" value="<?php echo e(($data) ? $data->name : ''); ?>" required class="form-control">
                                     </div>
                         </div>
+
                         <div class="form-group row">
                             <button class="btn mx-auto btn-primary w-50">Save</button>
                         </div>

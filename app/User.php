@@ -22,7 +22,7 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $fillable = [
-        'name', 'email', 'password', 'role','phone','birthday','gender','address'
+        'name', 'email', 'password', 'role', 'phone', 'birthday', 'gender', 'address'
     ];
 
     /**
@@ -44,10 +44,12 @@ class User extends Authenticatable
     ];
 
 
-    public function Patient(){
+    public function Patient()
+    {
         return $this->hasOne('App\Patient');
     }
-    public function doctor(){
+    public function doctor()
+    {
         return $this->hasOne(Doctor::class);
     }
 
@@ -57,8 +59,12 @@ class User extends Authenticatable
         return strtoupper($value);
     }
 
-      public function Billings(){
-                return $this->hasMany('App\Billing');
+    public function Billings()
+    {
+        return $this->hasMany('App\Billing');
     }
-
+    public function request_furniture()
+    {
+        return $this->hasMany(RequestFurniture::class);
+    }
 }

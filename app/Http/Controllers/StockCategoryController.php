@@ -17,7 +17,7 @@ class StockCategoryController extends Controller
     public function index()
     {
         $data = StockCategory::paginate(10);
-        return view('stock.index',compact('data'));
+        return view('stockcat.index',compact('data'));
     }
 
     /**
@@ -28,7 +28,7 @@ class StockCategoryController extends Controller
     public function create()
     {
         $data = null;
-        return view('stock.create',compact('data'));
+        return view('stockcat.create',compact('data'));
     }
 
     /**

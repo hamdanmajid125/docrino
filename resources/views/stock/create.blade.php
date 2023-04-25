@@ -44,18 +44,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="Name" class="col-sm-3 col-form-label">{{ __('Stock Category') }}<font
-                                    color="red">*</font></label>
-                            <div class="col-sm-9">
-                                <select name="category" class="form-control" id="">
-                                    @foreach ($users as $item)
-                                        <option value="{{ $item->id }}"
-                                            {{ ($data)?($item->id == $data->assigned_to ? 'selected' : ''):'' }}>{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
 
                         <div class="form-group row ">
                             <button class="btn btn-primary mx-auto w-50 " type="submit">Save</button>
