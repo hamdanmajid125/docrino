@@ -220,6 +220,53 @@
                     </li>
                 @endif
 
+                @if (Auth::user()->can('create stock') ||
+                        Auth::user()->can('view all stock') ||
+                        Auth::user()->can('view stock') ||
+                        Auth::user()->can('delete stock'))
+                    <!-- Nav Item - Pages Collapse Menu -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-pills"></i>
+                            <span>Stock</span>
+                        </a>
+                        <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                @can('create stock')
+                                    <a class="collapse-item"
+                                        href="{{ route('stock.create') }}">{{ __('Add Stock') }}</a>
+                                @endcan
+                                @can('view all stock')
+                                    <a class="collapse-item"
+                                        href="{{ route('stock.index') }}">{{ __('All Stock') }}</a>
+                                @endcan
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseStockCat"
+                            aria-expanded="true" aria-controls="collapsePages">
+                            <i class="fas fa-fw fa-pills"></i>
+                            <span>Stock Category</span>
+                        </a>
+                        <div id="collapseStockCat" class="collapse" aria-labelledby="headingPages"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                @can('create stock')
+                                    <a class="collapse-item"
+                                        href="{{ route('stock-category.create') }}">{{ __('Add Stock Category') }}</a>
+                                @endcan
+                                @can('view all stock')
+                                    <a class="collapse-item"
+                                        href="{{ route('stock-category.index') }}">{{ __('All Stock Category') }}</a>
+                                @endcan
+                            </div>
+                        </div>
+                    </li>
+                @endif
+
                 @if (Auth::user()->can('create diagnostic test') ||
                         Auth::user()->can('edit diagnostic test') ||
                         Auth::user()->can('view all diagnostic tests'))

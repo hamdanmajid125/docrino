@@ -6,8 +6,6 @@
 <?php $__env->startSection('content'); ?>
     <form method="post" action="<?php echo e(route('prescription.store')); ?>">
         <?php echo csrf_field(); ?>
-        <input type="hidden" name="druglength" id="druglength">
-        <input type="hidden" name="prescriptionlength" id="prescriptionlength">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card shadow mb-4">
@@ -82,34 +80,41 @@
         $(document).ready(function() {
             $('.multiselect-drug').select2();
         });
-        $('.fieldset.drugs_labels button').click(function(){
-            $('#druglength').val($('.drugs_labels .field-group').length)
-            $('#prescriptionlength').val($('.test_labels .field-group').length)
-        })
     </script>
 
 
     <script type="text/template" id="drugs_labels">
    <section class="field-group">
                          <div class="row">
-                             <div class="col-md-4">
-                                  <select class="form-control multiselect-drug" name="druginfo[drug_type_id][]" id="drug" tabindex="-1" aria-hidden="true" required>
+                            <div class="col-md-6">
+                                <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
+                                  <option value=""><?php echo e(__('Select Drug')); ?>...</option>
+                                  <?php $__currentLoopData = $drugs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <option  value="<?php echo e($drug->id); ?>"><?php echo e($drug->trade_name); ?></option>
+                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                           </div>
+                             <div class="col-md-6">
+                                  <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drug" tabindex="-1" aria-hidden="true" required>
                                     <option value=""><?php echo e(__('Select Drug Type')); ?>...</option>
                                     <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                   </select>
                              </div>
-                             <div class="col-md-4">
-                                 <select class="form-control multiselect-drug" name="druginfo[sick_type_id][]" id="drug" tabindex="-1" aria-hidden="true" required>
+                            </div>
+                            <br>
+                            <div class="row">
+
+                             <div class="col-md-6">
+                                 <select class="form-control multiselect-drug" name="druginfo[sick_type][]" id="drug" tabindex="-1" aria-hidden="true" required>
                                    <option value=""><?php echo e(__('Select Sick Drug Type')); ?>...</option>
                                    <?php $__currentLoopData = $sick; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                        <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                  </select>
                              </div>
-
-                             <div class="col-md-4">
+                             <div class="col-md-6">
                                  <div class="form-group-custom">
                                      <input type="text" id="strength" name="druginfo[strength][]"  class="form-control" placeholder="Mg/Ml">
                                  </div>
@@ -139,7 +144,7 @@
                                  </div>
                              </div>
                               <div class="col-md-3">
-                                    <a type="button" class="btn btn-danger btn-sm text-white span-2 delete"><i class="fa fa-times-circle"></i> <?php echo e(__('sentence.Remove')); ?></a>
+                                    <a type="button" class="btn btn-danger btn-sm text-white span-2 delete" ><i class="fa fa-times-circle" ></i> <?php echo e(__('sentence.Remove')); ?></a>
                                </div>
                                <div class="col-12">
                                     <hr color="#a1f1d4">
@@ -148,10 +153,10 @@
                  </section>
 </script>
     <script type="text/template" id="test_labels">
-                         <div class="field-group row">
+                         <section class="field-group row">
 
                              <div class="col-md-4">
-                                 <select class="form-control multiselect-doctorino" name="test_name[]" id="test" tabindex="-1" aria-hidden="true" required>
+                                 <select class="form-control multiselect-doctorino" name="test[test_name][]" id="test" tabindex="-1" aria-hidden="true" required>
                                    <option value=""><?php echo e(__('sentence.Select Test')); ?>...</option>
                                    <?php $__currentLoopData = $tests; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $test): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                        <option value="<?php echo e($test->id); ?>"><?php echo e($test->test_name); ?></option>
@@ -161,7 +166,7 @@
 
                              <div class="col-md-4">
                                  <div class="form-group-custom">
-                                     <input type="text" id="strength" name="description[]"  class="form-control" placeholder="<?php echo e(__('sentence.Description')); ?>">
+                                     <input type="text" id="strength" name="test[description][]"  class="form-control" placeholder="<?php echo e(__('sentence.Description')); ?>">
                                  </div>
                              </div>
                              <div class="col-md-3">
@@ -172,6 +177,7 @@
                                     <hr color="#a1f1d4">
                               </div>
                          </div>
+                        </section>
 </script>
 <?php $__env->stopSection(); ?>
 

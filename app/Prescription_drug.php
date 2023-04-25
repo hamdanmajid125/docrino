@@ -8,7 +8,7 @@ class Prescription_drug extends Model
 {
 
 	    protected $table = 'prescription_drugs';
-
+    
      public function Drug(){
     	        return $this->hasOne('App\Drug', 'id', 'drug_id');
     }

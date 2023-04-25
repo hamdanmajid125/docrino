@@ -8,7 +8,7 @@
 
 
     <div class="row justify-content-center">
-                  
+
         <div class="col-md-8">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
@@ -26,7 +26,7 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="Email" class="col-sm-3 col-form-label">{{ __('sentence.Email Adress') }}<font color="red">*</font></label>
+                      <label for="Email" class="col-sm-3 col-form-label">{{ __('sentence.Email Address') }}<font color="red">*</font></label>
                       <div class="col-sm-9">
                         <input type="email" class="form-control" id="Email" name="email" value="{{ $user->email }}">
                       </div>
@@ -38,7 +38,7 @@
                         <input type="password" class="form-control" id="Password" name="password">
                       </div>
                     </div>
-                    
+
                     <div class="form-group row">
                       <label for="Phone" class="col-sm-3 col-form-label">{{ __('sentence.Phone') }}</label>
                       <div class="col-sm-9">
@@ -55,7 +55,7 @@
                         </select>
                       </div>
                     </div>
-       
+
                     <div class="form-group row">
                       <label for="role" class="col-sm-3 col-form-label">{{ __('sentence.Role') }}</label>
                       <div class="col-sm-9">
@@ -78,7 +78,7 @@
                   </form>
                 </div>
               </div>
-            
+
         </div>
 
     </div>

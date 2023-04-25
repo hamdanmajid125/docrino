@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
+use App\StockCategory;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,21 +16,40 @@ use App\User;
 |
 */
 
-Route::get('/test',function(){
+Route::get('/test', function () {
+    // Permission::create(['name' => 'create stock']);
+    // Permission::create(['name' => 'edit stock']);
+    // Permission::create(['name' => 'view stock']);
+    // Permission::create(['name' => 'view all stock']);
+    // Permission::create(['name' => 'delete stock']);
 
-    $role = Role::findByName('Pharmist');
-    $role->givePermissionTo('edit prescription');
+    // $role = Role::findByName('Supervisor');
+    // $role->givePermissionTo('view all stock');
+
+    // StockCategory::create([
+    //     'name' => 'Tables'
+    // ]);
+    // StockCategory::create([
+    //     'name' => 'Chairs'
+    // ]);
+    // StockCategory::create([
+    //     'name' => 'Desk'
+    // ]);
+    // StockCategory::create([
+    //     'name' => 'Pen'
+    // ]);
+    // StockCategory::create([
+    //     'name' => 'Dustbin'
+    // ]);
 
 
 });
 
 Route::get('/', function () {
-    if(Auth::check()){
+    if (Auth::check()) {
         return redirect('/home');
-    }
-    else{
+    } else {
         return view('auth.login');
-
     }
 });
 
@@ -61,11 +81,11 @@ Route::post('/patient/search', 'PatientController@search')->name('patient.search
 //Documents
 Route::get('/document/all', 'DocumentController@all')->name('document.all')->middleware(['role_or_permission:Admin|edit patient']);
 Route::post('/document/create', 'DocumentController@store')->name('document.store')->middleware(['role_or_permission:Admin|edit patient']);
-Route::get('/document/delete/{id}','DocumentController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit patient']);
+Route::get('/document/delete/{id}', 'DocumentController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit patient']);
 
 //Documents
 Route::post('/history/create', 'HistoryController@store')->name('history.store')->middleware(['role_or_permission:Admin|edit patient']);
-Route::get('/history/delete/{id}','HistoryController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit patient']);
+Route::get('/history/delete/{id}', 'HistoryController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit patient']);
 
 //Appointments
 Route::get('/appointment/create', 'AppointmentController@create')->name('appointment.create')->middleware(['role_or_permission:Admin|create appointment']);
@@ -73,8 +93,8 @@ Route::post('/appointment/create', 'AppointmentController@store')->name('appoint
 Route::get('/appointment/all', 'AppointmentController@all')->name('appointment.all')->middleware(['role_or_permission:Admin|view all appointments']);
 Route::get('/appointment/calendar', 'AppointmentController@calendar')->name('appointment.calendar')->middleware(['role_or_permission:Admin|view all appointments']);
 Route::get('/appointment/pending', 'AppointmentController@pending')->name('appointment.pending')->middleware(['role_or_permission:Admin|view all appointments']);
-Route::post('/appointment/checkslots','AppointmentController@checkslots');
-Route::get('/appointment/delete/{id}','AppointmentController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete appointment']);
+Route::post('/appointment/checkslots', 'AppointmentController@checkslots');
+Route::get('/appointment/delete/{id}', 'AppointmentController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete appointment']);
 Route::post('/appointment/edit', 'AppointmentController@store_edit')->name('appointment.store_edit')->middleware(['role_or_permission:Admin|edit appointment']);
 
 //Drugs
@@ -83,7 +103,7 @@ Route::post('/drug/create', 'DrugController@store')->name('drug.store');
 Route::get('/drug/edit/{id}', 'DrugController@edit')->where('id', '[0-9]+')->name('drug.edit')->middleware(['role_or_permission:Admin|edit drug']);
 Route::post('/drug/edit', 'DrugController@store_edit')->name('drug.store_edit');
 Route::get('/drug/all', 'DrugController@all')->name('drug.all')->middleware(['role_or_permission:Admin|view all drugs']);
-Route::get('/drug/delete/{id}','DrugController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete drug']);
+Route::get('/drug/delete/{id}', 'DrugController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete drug']);
 
 
 //Tests
@@ -99,16 +119,19 @@ Route::get('/prescription/create', 'PrescriptionController@create')->name('presc
 Route::post('/prescription/create', 'PrescriptionController@store')->name('prescription.store');
 Route::get('/prescription/all', 'PrescriptionController@all')->name('prescription.all')->middleware(['role_or_permission:Admin|view all prescriptions']);
 Route::get('/prescription/view/{id}', 'PrescriptionController@view')->where('id', '[0-9]+')->name('prescription.view')->middleware(['role_or_permission:Admin|view prescription']);
-Route::get('/prescription/pdf/{id}','PrescriptionController@pdf')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|print prescription']);
-Route::get('/prescription/delete/{id}','PrescriptionController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete prescription']);
+Route::get('/prescription/pdf/{id}', 'PrescriptionController@pdf')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|print prescription']);
+Route::get('/prescription/delete/{id}', 'PrescriptionController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete prescription']);
 Route::get('/prescription/user/{id}', 'PrescriptionController@view_for_user')->where('id', '[0-9]+')->name('prescription.view_for_user')->middleware(['role_or_permission:Admin|view patient']);
+Route::post('/deleteprescriptiondrug', 'PrescriptionController@deleteprescriptiondrug')->name('deleteprescriptiondrug')->middleware(['role_or_permission:Admin|Pharmist|edit prescription']);
 
-Route::get('/prescription/edit/{id}','PrescriptionController@edit')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit prescription']);
+Route::get('/prescription/edit/{id}', 'PrescriptionController@edit')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit prescription']);
 Route::post('/prescription/update', 'PrescriptionController@update')->name('prescription.update');
 
 //Doctor
-Route::resource('doctor','DoctorController');
-Route::resource('schedule','ScheduleController');
+Route::resource('doctor', 'DoctorController');
+Route::resource('stock', 'StockController');
+Route::resource('stock-category', 'StockCategoryController');
+Route::resource('schedule', 'ScheduleController');
 
 Route::get('/allappoinment', 'DoctorController@appointment_all')->name('doctor.appointment_all');
 
@@ -118,9 +141,9 @@ Route::get('/billing/create', 'BillingController@create')->name('billing.create'
 Route::post('/billing/create', 'BillingController@store')->name('billing.store');
 Route::get('/billing/all', 'BillingController@all')->name('billing.all')->middleware(['role_or_permission:Admin|view all invoices']);
 Route::get('/billing/view/{id}', 'BillingController@view')->where('id', '[0-9]+')->name('billing.view')->middleware(['role_or_permission:Admin|view invoice']);
-Route::get('/billing/pdf/{id}','BillingController@pdf')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|print invoice']);
-Route::get('/billing/delete/{id}','BillingController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete invoice']);
-Route::get('/billing/edit/{id}','BillingController@edit')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit invoice']);
+Route::get('/billing/pdf/{id}', 'BillingController@pdf')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|print invoice']);
+Route::get('/billing/delete/{id}', 'BillingController@destroy')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|delete invoice']);
+Route::get('/billing/edit/{id}', 'BillingController@edit')->where('id', '[0-9]+')->middleware(['role_or_permission:Admin|edit invoice']);
 Route::post('/billing/update', 'BillingController@update')->name('billing.update');
 
 //Settings
@@ -148,4 +171,4 @@ Route::get('/role/create', 'RolesController@create')->name('role.create')->middl
 Route::post('/role/create', 'RolesController@store')->name('role.store');
 Route::get('/role/edit/{id}', 'RolesController@edit_role')->where('id', '[0-9]+')->name('role.edit_role')->middleware(['role_or_permission:Admin']);
 Route::post('/role/edit', 'RolesController@store_edit_role')->name('role.store_edit_role');
-Route::get('/role/delete/{id}','RolesController@destroy')->where('id', '[0-9]+')->name('role.destroy')->middleware(['role_or_permission:Admin']);
+Route::get('/role/delete/{id}', 'RolesController@destroy')->where('id', '[0-9]+')->name('role.destroy')->middleware(['role_or_permission:Admin']);

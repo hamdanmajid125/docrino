@@ -89,7 +89,7 @@
                                 <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
                                   <option value="">{{ __('Select Drug') }}...</option>
                                   @foreach($drugs as $drug)
-                                      <option value="{{ $drug->id }}">{{ $drug->trade_name }}</option>
+                                      <option  value="{{ $drug->id }}">{{ $drug->trade_name }}</option>
                                   @endforeach
                                 </select>
                            </div>
@@ -176,6 +176,7 @@
                                     <hr color="#a1f1d4">
                               </div>
                          </div>
+                        </section>
 </script>
 @endsection
 
