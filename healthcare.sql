@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2023 at 01:37 AM
+-- Generation Time: Apr 27, 2023 at 07:27 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -540,7 +540,7 @@ INSERT INTO `request_furniture` (`id`, `user_id`, `approved`, `stock_id`, `creat
 (1, 1, 0, 1, '2023-04-25 14:49:05', '2023-04-25 16:07:33', 12),
 (2, 1, 0, 1, '2023-04-25 14:51:33', '2023-04-25 16:07:34', 12),
 (3, 1, 1, 1, '2023-04-25 14:54:19', '2023-04-25 16:07:32', 12),
-(4, 6, 0, 1, '2023-04-25 16:54:52', '2023-04-25 16:54:52', 34);
+(4, 6, 1, 1, '2023-04-25 16:54:52', '2023-04-26 13:32:57', 34);
 
 -- --------------------------------------------------------
 
@@ -817,12 +817,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `birthday`, `gender`, `address`, `email_verified_at`, `password`, `role`, `image`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Doctorino', 'doctor@getdoctorino.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$O0Ujfn8ebYue6UURPKZX2upw5NSbbeUj9ilZcgWEGg0wl7krL/Hb2', 'admin', NULL, NULL, '2023-04-14 01:27:39', '2023-04-14 01:27:39'),
-(2, 'Oliver Lowe', 'xirahaxuxu@mailinator.com', '+1 (851) 684-5237', '1986-09-04', 'Male', 'Molestiae commodo in', NULL, '$2y$10$yjN33Nri3LlI0fVfAJ/be.qru13441rk8opP2kqcCmrq8A20zc5xS', 'doctor', NULL, NULL, '2023-04-14 01:42:02', '2023-04-14 01:42:02'),
-(3, 'Travis Spencer', 'zuhypuv@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$.VCLCVv7X6eVletfUqrW/ugah2DeJXXwot7dDJ/iILo7ZK4m0VapW', 'patient', '', NULL, '2023-04-14 01:43:13', '2023-04-14 01:43:13'),
-(4, 'Randall Whitehead', 'mapawydo@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$ojX.KWrZnCymfw8B/Z0A..MhuJCNVjxqlBq070AN81Di6SxOA/E1.', 'patient', 'Pm2dY4OPnF2DASK-patient.jpg', NULL, '2023-04-16 19:40:52', '2023-04-16 19:40:52'),
-(6, 'Pharmist1', 'pharmist@mail.com', '+1 (287) 121-9006', NULL, 'Female', NULL, NULL, '$2y$10$REUNPG1T1xPjoIvh.1WmMeP2GbtkC9kDTUY5MNW85qeRRydwHeGeC', 'Pharmist', NULL, NULL, '2023-04-20 16:22:44', '2023-04-20 16:22:44'),
-(7, 'Stock Supervisor', 'stocksupervisior@mail.com', '1234567890', NULL, 'Female', NULL, NULL, '$2y$10$c4/w6NGeY3evqi16MJe5aeYMQRLMpVfnqU0ir.nOsqefLefSVyVCO', 'Supervisor', NULL, NULL, '2023-04-24 14:31:24', '2023-04-24 14:31:24');
+(1, 'Doctorino', 'doctor@getdoctorino.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$/12vdU/nNZEEmoXm1c/K8.s.8GLAHAPCIHQPDYcB6VZIQozpn9cqC', 'admin', NULL, NULL, '2023-04-14 01:27:39', '2023-04-14 01:27:39'),
+(2, 'Oliver Lowe', 'xirahaxuxu@mailinator.com', '+1 (851) 684-5237', '1986-09-04', 'Male', 'Molestiae commodo in', NULL, '$2y$10$/12vdU/nNZEEmoXm1c/K8.s.8GLAHAPCIHQPDYcB6VZIQozpn9cqC', 'doctor', NULL, NULL, '2023-04-14 01:42:02', '2023-04-14 01:42:02'),
+(3, 'Travis Spencer', 'zuhypuv@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$/12vdU/nNZEEmoXm1c/K8.s.8GLAHAPCIHQPDYcB6VZIQozpn9cqC', 'patient', '', NULL, '2023-04-14 01:43:13', '2023-04-14 01:43:13'),
+(4, 'Randall Whitehead', 'mapawydo@mailinator.com', NULL, NULL, 'Female', NULL, NULL, '$2y$10$/12vdU/nNZEEmoXm1c/K8.s.8GLAHAPCIHQPDYcB6VZIQozpn9cqC', 'patient', 'Pm2dY4OPnF2DASK-patient.jpg', NULL, '2023-04-16 19:40:52', '2023-04-16 19:40:52'),
+(6, 'Pharmist1', 'pharmist@mail.com', '+1 (287) 121-9006', NULL, 'Female', NULL, NULL, '$2y$10$/12vdU/nNZEEmoXm1c/K8.s.8GLAHAPCIHQPDYcB6VZIQozpn9cqC', 'Pharmist', NULL, NULL, '2023-04-20 16:22:44', '2023-04-20 16:22:44'),
+(7, 'Stock Supervisor', 'stocksupervisior@mail.com', '1234567890', NULL, 'Female', NULL, NULL, '$2y$10$/12vdU/nNZEEmoXm1c/K8.s.8GLAHAPCIHQPDYcB6VZIQozpn9cqC', 'Supervisor', NULL, NULL, '2023-04-24 14:31:24', '2023-04-24 14:31:24');
 
 --
 -- Indexes for dumped tables
