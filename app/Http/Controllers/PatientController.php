@@ -40,13 +40,26 @@ class PatientController extends Controller
 	public function generatecard($id)
 	{
 		$patient = User::find($id);
-		
+
 		return view('card',compact('patient'));
 	}
 
 	public function allappointments(){
 
-		$appointments = Booking::where('patient_id',Auth::user()->id)->paginate(10);
+        if(ucwords(Auth::user()->role) == 'Doctor'){
+		    $appointments = Booking::orderBy('id', 'DESC')->where('doctor_id',Auth::user()->id)->paginate(10);
+
+        }
+        elseif(ucwords(Auth::user()->role) == 'Patient')
+        {
+		    $appointments = Booking::orderBy('id', 'DESC')->where('patient_id',Auth::user()->id)->paginate(10);
+
+        }
+        else{
+		    $appointments = Booking::orderBy('id', 'DESC')->paginate(10);
+
+        }
+
         return view('appointment.all', ['appointments' => $appointments]);
 
 	}

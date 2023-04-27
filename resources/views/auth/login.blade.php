@@ -73,19 +73,21 @@
                                                 {{ __('sentence.Forgot Your Password') }}</a>
                                         </div>
                                     @endif
-                                </div>
-                                <div class="p-5">
-                                    <div class="form-group loginbutton">
+                                    <div class="form-group loginbutton pt-1">
                                         @php
                                             $users = App\User::all();
                                             $class = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
                                         @endphp
                                         @foreach ($users as $key => $item)
-                                            <button
-                                                class="btn btn-sm btn-{{ $class[$key] }} " data-email="{{ $item->email }}">{{ $item->name }}<br>{{ ucwords($item->role) }}</button>
+                                            <div class="button">
+                                                <button class="btn btn-sm btn-{{ $class[$key] }} "
+                                                    data-email="{{ $item->email }}">{{ $item->name }}<br>{{ ucwords($item->role) }}</button>
+                                            </div>
                                         @endforeach
                                     </div>
                                 </div>
+
+
 
                             </div>
                         </div>
@@ -94,9 +96,9 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/app.js') }}"  ></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script>
-        $('.loginbutton button').click(function(){
+        $('.loginbutton button').click(function() {
             $('#email').val($(this).data('email'))
             $('#password').val('@Admin!23#')
         });
@@ -107,10 +109,23 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
     }
 
-    .loginbutton button {
+    .loginbutton .button {
         flex: 0 0 50%;
+    }
+
+
+    .button {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .button button {
+        width: 98%;
+        margin-top: 5px;
     }
 </style>
 

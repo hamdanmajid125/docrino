@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 07:27 PM
+-- Generation Time: Apr 28, 2023 at 01:30 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -350,6 +350,13 @@ CREATE TABLE `password_resets` (
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('doctor@getdoctorino.com', '$2y$10$JlfrCvo0y/uESdBcxqe0o.7SKSCJEAu0lRtglGQCR9AP1QI59mUyC', '2023-04-27 18:29:57');
+
 -- --------------------------------------------------------
 
 --
@@ -633,8 +640,13 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (34, 1),
 (35, 1),
 (36, 1),
+(38, 1),
 (38, 2),
+(38, 3),
+(39, 1),
+(39, 3),
 (39, 4),
+(41, 1),
 (42, 5),
 (43, 5),
 (44, 5),

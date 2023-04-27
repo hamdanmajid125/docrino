@@ -85,7 +85,7 @@
                         </div>
                     </li>
                 @endif
-                @role('admin|doctor|Pharmist')
+                @role('Admin|Doctor|Pharmist')
                     <hr class="sidebar-divider">
                     <div class="sidebar-heading">
                         {{ __('Doctors') }}
@@ -106,9 +106,7 @@
                                 @can('view doctor')
                                     <a class="collapse-item" href="{{ route('doctor.index') }}">{{ __('All Doctors') }}</a>
                                 @endcan
-                                @can('view appointment')
-                                    <a class="collapse-item" href="{{ route('doctor.appointment_all') }}">All Appointments</a>
-                                @endcan
+
 
                             </div>
                         </div>
@@ -139,18 +137,11 @@
                                     <a class="collapse-item"
                                         href="{{ route('appointment.create') }}">{{ __('sentence.New Appointment') }}</a>
                                 @endcan
-                                @can('view all appointments')
-                                    <a class="collapse-item"
-                                        href="{{ route('appointment.pending') }}">{{ __('sentence.Upcoming Appointments') }}</a>
 
-                                    <a class="collapse-item"
-                                        href="{{ route('appointment.all') }}">{{ __('sentence.All Appointments') }}</a>
-                                @endcan
                                 @can('view appointment')
-                                    <a class="collapse-item" href="{{ route('allappointments') }}">My Appointments</a>
+                                    <a class="collapse-item" href="{{ route('allappointments') }}">Appointments</a>
 
-                                    <a class="collapse-item"
-                                        href="{{ route('appointment.all') }}">{{ __('sentence.All Appointments') }}</a>
+
                                 @endcan
                             </div>
                         </div>

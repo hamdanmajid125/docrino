@@ -17,30 +17,9 @@ use App\StockCategory;
 */
 
 Route::get('/test', function () {
-    // Permission::create(['name' => 'create stock']);
-    // Permission::create(['name' => 'edit stock']);
-    // Permission::create(['name' => 'view stock']);
-    // Permission::create(['name' => 'view all stock']);
-    // Permission::create(['name' => 'delete stock']);
-
-    // $role = Role::findByName('Supervisor');
-    // $role->givePermissionTo('view all stock');
-
-    // StockCategory::create([
-    //     'name' => 'Tables'
-    // ]);
-    // StockCategory::create([
-    //     'name' => 'Chairs'
-    // ]);
-    // StockCategory::create([
-    //     'name' => 'Desk'
-    // ]);
-    // StockCategory::create([
-    //     'name' => 'Pen'
-    // ]);
-    // StockCategory::create([
-    //     'name' => 'Dustbin'
-    // ]);
+   $role = Role::findByName('Doctor');
+   $permissions = ['view doctor','view appointment'];
+   $role->givePermissionTo($permissions);
 
 
 });
@@ -61,7 +40,7 @@ Route::get('/lang/{locale}', 'HomeController@lang');
 
 //genarte card
 Route::get('generatecard/{id}', 'PatientController@generatecard')->name('generatecard')->middleware(['role:Admin|Patient']);
-Route::get('allappointment', 'PatientController@allappointments')->name('allappointments')->middleware(['role:Patient']);
+Route::get('allappointment', 'PatientController@allappointments')->name('allappointments')->middleware(['role:Patient|Doctor|Admin']);
 
 
 //Patients

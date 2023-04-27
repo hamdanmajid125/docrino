@@ -42,7 +42,7 @@ class AppointmentController extends Controller
         $date = Carbon::parse($request->input('date'));
 
         $doctor = User::find($request->input('doctor'))->doctor;
-    
+
         $availableDays =  json_decode($doctor->available_on);
         $dayIndex = array_search($date->format("l"), $availableDays);
 
@@ -51,7 +51,7 @@ class AppointmentController extends Controller
             $startShift = json_decode($doctor->available_from)[$dayIndex];
             $endShift = json_decode($doctor->available_to)[$dayIndex];
             $intervals = CarbonInterval::minutes($perPatientTime)->toPeriod($startShift, $endShift);
-            $send_slots = [];     
+            $send_slots = [];
             foreach ($intervals as $key => $intervaldate) {
                 if ($key < count($intervals) - 1)
                 array_push($send_slots, $intervaldate->format('h:i A') . ' - ' . $intervaldate->addMinutes($perPatientTime)->format('h:i A'));
@@ -134,7 +134,7 @@ class AppointmentController extends Controller
 
     public function store_edit(Request $request)
     {
-        
+
         $validatedData = $request->validate([
             'rdv_id' => ['required', 'exists:bookings,id'],
             'rdv_status' => ['required', 'numeric'],
@@ -149,8 +149,7 @@ class AppointmentController extends Controller
 
     public function all()
     {
-
-        $appointments = Booking::orderBy('id', 'DESC')->paginate(10);
+        $appointments = Booking::orderBy('id', 'DESC')->where()->paginate(10);
         return view('appointment.all', ['appointments' => $appointments]);
     }
 

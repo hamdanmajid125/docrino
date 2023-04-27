@@ -102,19 +102,21 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php echo e(__('sentence.Forgot Your Password')); ?></a>
                                         </div>
                                     <?php endif; ?>
-                                </div>
-                                <div class="p-5">
-                                    <div class="form-group loginbutton">
+                                    <div class="form-group loginbutton pt-1">
                                         <?php
                                             $users = App\User::all();
                                             $class = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
                                         ?>
                                         <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <button
-                                                class="btn btn-sm btn-<?php echo e($class[$key]); ?> " data-email="<?php echo e($item->email); ?>"><?php echo e($item->name); ?><br><?php echo e(ucwords($item->role)); ?></button>
+                                            <div class="button">
+                                                <button class="btn btn-sm btn-<?php echo e($class[$key]); ?> "
+                                                    data-email="<?php echo e($item->email); ?>"><?php echo e($item->name); ?><br><?php echo e(ucwords($item->role)); ?></button>
+                                            </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
                                 </div>
+
+
 
                             </div>
                         </div>
@@ -123,9 +125,9 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
-    <script src="<?php echo e(asset('js/app.js')); ?>"  ></script>
+    <script src="<?php echo e(asset('js/app.js')); ?>"></script>
     <script>
-        $('.loginbutton button').click(function(){
+        $('.loginbutton button').click(function() {
             $('#email').val($(this).data('email'))
             $('#password').val('@Admin!23#')
         });
@@ -136,10 +138,23 @@ unset($__errorArgs, $__bag); ?>
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        width: 100%;
     }
 
-    .loginbutton button {
+    .loginbutton .button {
         flex: 0 0 50%;
+    }
+
+
+    .button {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .button button {
+        width: 98%;
+        margin-top: 5px;
     }
 </style>
 

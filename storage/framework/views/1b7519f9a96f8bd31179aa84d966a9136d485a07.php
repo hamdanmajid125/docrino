@@ -86,7 +86,7 @@
                         </div>
                     </li>
                 <?php endif; ?>
-                <?php if(auth()->check() && auth()->user()->hasRole('admin|doctor|Pharmist')): ?>
+                <?php if(auth()->check() && auth()->user()->hasRole('Admin|Doctor|Pharmist')): ?>
                     <hr class="sidebar-divider">
                     <div class="sidebar-heading">
                         <?php echo e(__('Doctors')); ?>
@@ -108,9 +108,7 @@
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view doctor')): ?>
                                     <a class="collapse-item" href="<?php echo e(route('doctor.index')); ?>"><?php echo e(__('All Doctors')); ?></a>
                                 <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view appointment')): ?>
-                                    <a class="collapse-item" href="<?php echo e(route('doctor.appointment_all')); ?>">All Appointments</a>
-                                <?php endif; ?>
+
 
                             </div>
                         </div>
@@ -142,18 +140,11 @@
                                     <a class="collapse-item"
                                         href="<?php echo e(route('appointment.create')); ?>"><?php echo e(__('sentence.New Appointment')); ?></a>
                                 <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view all appointments')): ?>
-                                    <a class="collapse-item"
-                                        href="<?php echo e(route('appointment.pending')); ?>"><?php echo e(__('sentence.Upcoming Appointments')); ?></a>
 
-                                    <a class="collapse-item"
-                                        href="<?php echo e(route('appointment.all')); ?>"><?php echo e(__('sentence.All Appointments')); ?></a>
-                                <?php endif; ?>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view appointment')): ?>
-                                    <a class="collapse-item" href="<?php echo e(route('allappointments')); ?>">My Appointments</a>
+                                    <a class="collapse-item" href="<?php echo e(route('allappointments')); ?>">Appointments</a>
 
-                                    <a class="collapse-item"
-                                        href="<?php echo e(route('appointment.all')); ?>"><?php echo e(__('sentence.All Appointments')); ?></a>
+
                                 <?php endif; ?>
                             </div>
                         </div>
