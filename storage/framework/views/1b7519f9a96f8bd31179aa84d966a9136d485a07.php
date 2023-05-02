@@ -657,6 +657,8 @@
 
     <?php echo $__env->yieldContent('footer'); ?>
 
+    <?php echo $__env->yieldPushContent('js'); ?>
+
 </body>
 
 </html>

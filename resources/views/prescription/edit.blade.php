@@ -40,7 +40,8 @@
                                 class="btn btn-warning btn-block" align="center">
                         </div>
                         <div class="form-group">
-                            <a class="btn btn-success w-100" href="{{ route('generatebill',$prescription->id) }}">Generate Bill</a>
+                            <a class="btn btn-success w-100" href="{{ route('generatebill', $prescription->id) }}">Generate
+                                Bill</a>
                         </div>
                     </div>
                 </div>
@@ -60,6 +61,17 @@
                                     <section class="field-group">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <select class="form-control multiselect-drug" name="druginfo[drug_type][]"
+                                                    id="drug" tabindex="-1" aria-hidden="true" disabled>
+                                                    <option value="">{{ __('Select Drug Type') }}...</option>
+                                                    @foreach ($drug_type as $drug)
+                                                        <option
+                                                            {{ $drug->id == $prescription_drug->drug_id ? 'selected' : '' }}
+                                                            value="{{ $drug->id }}">{{ $drug->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <select class="form-control multiselect-drug" name="druginfo[trade_name][]"
                                                     id="drug" tabindex="-1" aria-hidden="true" disabled>
                                                     <option value="">{{ __('Select Drug') }}...</option>
@@ -76,17 +88,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
-                                                <select class="form-control multiselect-drug" name="druginfo[drug_type][]"
-                                                    id="drug" tabindex="-1" aria-hidden="true" disabled>
-                                                    <option value="">{{ __('Select Drug Type') }}...</option>
-                                                    @foreach ($drug_type as $drug)
-                                                        <option
-                                                            {{ $drug->id == $prescription_drug->drug_id ? 'selected' : '' }}
-                                                            value="{{ $drug->id }}">{{ $drug->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+
                                         </div>
                                         <br>
                                         <div class="row">
@@ -174,11 +176,11 @@
                                             <select class="form-control multiselect-doctorino" name="test_name[]"
                                                 id="test" tabindex="-1" aria-hidden="true" disabled>
                                                 @foreach ($tests as $test)
-                                                @if ($test->id == $prescription_test->test_id)
-                                                    @php
-                                                        $sum += $test->price;
-                                                    @endphp
-                                                @endif
+                                                    @if ($test->id == $prescription_test->test_id)
+                                                        @php
+                                                            $sum += $test->price;
+                                                        @endphp
+                                                    @endif
                                                     <option
                                                         {{ $test->id == $prescription_test->test_id ? 'selected' : '' }}
                                                         value="{{ $test->id }}">{{ $test->test_name }} </option>
@@ -270,22 +272,21 @@
     <script type="text/template" id="drugs_labels">
         <section class="field-group">
             <div class="row">
+                <div class="col-md-6">
+                    <select class="form-control multiselect-drug" name="druginfo[drug_type][]" onchange="changeCategory(this)" tabindex="-1" aria-hidden="true" required>
+                      <option value="">{{ __('Select Drug Type') }}...</option>
+                      @foreach($drug_type as $drug)
+                          <option value="{{ $drug->id }}">{{ $drug->name }}</option>
+                      @endforeach
+                    </select>
+               </div>
                <div class="col-md-6">
                    <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
                      <option value="">{{ __('Select Drug') }}...</option>
-                     @foreach($drugs as $drug)
-                         <option  value="{{ $drug->id }}" data-price="{{ $drug->price }}">{{ $drug->trade_name }}</option>
-                     @endforeach
+
                    </select>
               </div>
-                <div class="col-md-6">
-                     <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drug" tabindex="-1" aria-hidden="true" required>
-                       <option value="">{{ __('Select Drug Type') }}...</option>
-                       @foreach($drug_type as $drug)
-                           <option value="{{ $drug->id }}">{{ $drug->name }}</option>
-                       @endforeach
-                     </select>
-                </div>
+
                </div>
                <br>
                <div class="row">
@@ -369,3 +370,38 @@
 @section('header')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
+@push('js')
+    <script>
+        function changeCategory(e) {
+            let $this =e;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("getdrug") }}',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    category: e.value
+                },
+                success: function(response) {
+                    if(response.status){
+                        $($(e).parent().next().find('select')[0]).html('')
+                        response.drugs.forEach(obj => {
+                            console.log()
+                            $($(e).parent().next().find('select')[0]).append($('<option>', {
+                                value: obj.id,
+                                text: obj.trade_name
+                            }));
+
+
+                        });
+                    }
+                }
+            });
+
+        }
+    </script>
+@endpush

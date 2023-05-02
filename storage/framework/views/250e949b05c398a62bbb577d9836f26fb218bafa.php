@@ -39,6 +39,10 @@
                             <input type="submit" value="<?php echo e(__('sentence.Edit Prescription')); ?>"
                                 class="btn btn-warning btn-block" align="center">
                         </div>
+                        <div class="form-group">
+                            <a class="btn btn-success w-100" href="<?php echo e(route('generatebill', $prescription->id)); ?>">Generate
+                                Bill</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,6 +61,18 @@
                                     <section class="field-group">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <select class="form-control multiselect-drug" name="druginfo[drug_type][]"
+                                                    id="drug" tabindex="-1" aria-hidden="true" disabled>
+                                                    <option value=""><?php echo e(__('Select Drug Type')); ?>...</option>
+                                                    <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option
+                                                            <?php echo e($drug->id == $prescription_drug->drug_id ? 'selected' : ''); ?>
+
+                                                            value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
                                                 <select class="form-control multiselect-drug" name="druginfo[trade_name][]"
                                                     id="drug" tabindex="-1" aria-hidden="true" disabled>
                                                     <option value=""><?php echo e(__('Select Drug')); ?>...</option>
@@ -74,18 +90,7 @@
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
-                                            <div class="col-md-6">
-                                                <select class="form-control multiselect-drug" name="druginfo[drug_type][]"
-                                                    id="drug" tabindex="-1" aria-hidden="true" disabled>
-                                                    <option value=""><?php echo e(__('Select Drug Type')); ?>...</option>
-                                                    <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <option
-                                                            <?php echo e($drug->id == $prescription_drug->drug_id ? 'selected' : ''); ?>
 
-                                                            value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </select>
-                                            </div>
                                         </div>
                                         <br>
                                         <div class="row">
@@ -174,11 +179,11 @@
                                             <select class="form-control multiselect-doctorino" name="test_name[]"
                                                 id="test" tabindex="-1" aria-hidden="true" disabled>
                                                 <?php $__currentLoopData = $tests; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $test): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <?php if($test->id == $prescription_test->test_id): ?>
-                                                    <?php
-                                                        $sum += $test->price;
-                                                    ?>
-                                                <?php endif; ?>
+                                                    <?php if($test->id == $prescription_test->test_id): ?>
+                                                        <?php
+                                                            $sum += $test->price;
+                                                        ?>
+                                                    <?php endif; ?>
                                                     <option
                                                         <?php echo e($test->id == $prescription_test->test_id ? 'selected' : ''); ?>
 
@@ -271,22 +276,21 @@
     <script type="text/template" id="drugs_labels">
         <section class="field-group">
             <div class="row">
+                <div class="col-md-6">
+                    <select class="form-control multiselect-drug" name="druginfo[drug_type][]" onchange="changeCategory(this)" tabindex="-1" aria-hidden="true" required>
+                      <option value=""><?php echo e(__('Select Drug Type')); ?>...</option>
+                      <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                          <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
+                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </select>
+               </div>
                <div class="col-md-6">
                    <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
                      <option value=""><?php echo e(__('Select Drug')); ?>...</option>
-                     <?php $__currentLoopData = $drugs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                         <option  value="<?php echo e($drug->id); ?>" data-price="<?php echo e($drug->price); ?>"><?php echo e($drug->trade_name); ?></option>
-                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                    </select>
               </div>
-                <div class="col-md-6">
-                     <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drug" tabindex="-1" aria-hidden="true" required>
-                       <option value=""><?php echo e(__('Select Drug Type')); ?>...</option>
-                       <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                           <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
-                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                     </select>
-                </div>
+
                </div>
                <br>
                <div class="row">
@@ -370,5 +374,40 @@
 <?php $__env->startSection('header'); ?>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+    <script>
+        function changeCategory(e) {
+            let $this =e;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo e(route("getdrug")); ?>',
+                data: {
+                    _token: "<?php echo e(csrf_token()); ?>",
+                    category: e.value
+                },
+                success: function(response) {
+                    if(response.status){
+                        $($(e).parent().next().find('select')[0]).html('')
+                        response.drugs.forEach(obj => {
+                            console.log()
+                            $($(e).parent().next().find('select')[0]).append($('<option>', {
+                                value: obj.id,
+                                text: obj.trade_name
+                            }));
+
+
+                        });
+                    }
+                }
+            });
+
+        }
+    </script>
+<?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\123\Documents\GitHub\docrino\resources\views/prescription/edit.blade.php ENDPATH**/ ?>

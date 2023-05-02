@@ -41,7 +41,12 @@ class PrescriptionController extends Controller
 
         return view('prescription.create', ['drugs' => $drugs, 'patients' => $patients, 'tests' => $tests, 'sick' => $sick, 'drug_type' => $drug_type]);
     }
-
+    public function issuepre(Request $request)
+    {
+        Prescription::find($request->id)->update([
+            'issued' => ($request->val == 'true') ? 1 : 0
+        ]);
+    }
     public function store(Request $request)
     {
 
@@ -110,6 +115,8 @@ class PrescriptionController extends Controller
 
         if (Auth::user()->role == 'admin' || Auth::user()->role == 'receptionist' || Auth::user()->role == 'Pharmist')
             $prescriptions = Prescription::orderBy('id', 'DESC')->paginate(10);
+        else if(Auth::user()->role == 'doctor')
+            $prescriptions = Prescription::where('doctor_id',Auth::user()->id)->orderBy('id', 'DESC')->paginate(10);
         else
             $prescriptions = Prescription::where('user_id', Auth::id())->orderBy('id', 'DESC')->paginate(10);
 
@@ -134,7 +141,7 @@ class PrescriptionController extends Controller
         $prescription_tests = Prescription_test::where('prescription_id', $id)->get();
 
         view()->share(['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
-        
+
 
         $user = User::find($prescription->user_id);
         $customer = new Buyer([
@@ -152,20 +159,20 @@ class PrescriptionController extends Controller
         if (!$prescription_drugs->isEmpty()) {
             foreach ($prescription_drugs as $drug) {
                 array_push($items, (new InvoiceItem())->title($drug->Drug->trade_name)->pricePerUnit($drug->Drug->price));
-               
+
             }
         }
         if (!$prescription_tests->isEmpty()) {
             foreach ($prescription_tests as $test) {
                 array_push($items, (new InvoiceItem())->title($test->Test->test_name)->pricePerUnit($test->Test->price));
-               
+
             }
         }
         $notes = [
             'Keep yourself healthy'
         ];
         $notes = implode("<br>", $notes);
-    
+
 
         $invoice = Invoice::make()
             ->buyer($customer)

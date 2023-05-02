@@ -86,10 +86,10 @@
                             <div class="col-md-6">
                                 <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
                                   <option value="">{{ __('Select Drug') }}...</option>
-                                
+
                                 </select>
                            </div>
-                           
+
                             </div>
                             <br>
                             <div class="row">
@@ -176,6 +176,7 @@
 @push('js')
     <script>
         function changeCategory(e) {
+            let $this =e;
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -190,11 +191,15 @@
                 },
                 success: function(response) {
                     if(response.status){
-                        console.log(response.drugs)
+                        $($(e).parent().next().find('select')[0]).html('')
                         response.drugs.forEach(obj => {
+                            console.log()
+                            $($(e).parent().next().find('select')[0]).append($('<option>', {
+                                value: obj.id,
+                                text: obj.trade_name
+                            }));
 
-                            
-                            
+
                         });
                     }
                 }

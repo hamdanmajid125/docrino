@@ -151,85 +151,215 @@
       </div>
    </div>
 </div>
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ __('sentence.New Appointments') }}</div>
+                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_appointments_today->count() }}</div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- Earnings (Annual) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{ __('sentence.Total Appointments') }}</div>
+                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_appointments }}</div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- Tasks Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ __('sentence.New Patients') }}</div>
+                   <div class="row no-gutters align-items-center">
+                      <div class="col-auto">
+                         <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $total_patients_today }}</div>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('sentence.All Patients') }}</div>
+                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_patients }}</div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-users fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
 
 @endrole
 
-@role('Receptionist')
 
+@role('Doctor|Patient')
 <div class="row">
-
-   <!-- Earnings (Monthly) Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ __('sentence.New Appointments') }}</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_appointments_today->count() }}</div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Earnings (Annual) Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{ __('sentence.Total Appointments') }}</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_appointments }}</div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Tasks Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-info shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ __('sentence.New Patients') }}</div>
-                  <div class="row no-gutters align-items-center">
-                     <div class="col-auto">
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $total_patients_today }}</div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-user-plus fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Pending Requests Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-warning shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('sentence.All Patients') }}</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_patients }}</div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-users fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ __('Today Appointments') }}</div>
+                    <div class="row no-gutters align-items-center">
+                       <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $total_appointments_today->count() }}</div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- Pending Requests Card Example -->
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Appointments') }}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_appointments }}</div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ __('Your Prescriptions') }}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_prescriptions }}</div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
 </div>
 
 @endrole
-
+@role('Pharmist')
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ __('Total Prescriptions') }}</div>
+                    <div class="row no-gutters align-items-center">
+                       <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $total_prescriptions }}</div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- Pending Requests Card Example -->
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Drugs') }}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $drugs }}</div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+</div>
+@endrole
+@role('Supervisor')
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">{{ __('Total Request Furniture') }}</div>
+                    <div class="row no-gutters align-items-center">
+                       <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $request }}</div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- Pending Requests Card Example -->
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">{{ __('Approved Furniture Request') }}</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $approvedreq }}</div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+</div>
+@endrole
 @role('Admin|Receptionist')
 
 <div class="row">
@@ -300,8 +430,8 @@
                            <a data-rdv_id="{{ $appointment->id }}" data-rdv_date="{{ $appointment->date->format('d M Y') }}" data-rdv_time_start="{{ $appointment->time_start }}" data-rdv_time_end="{{ $appointment->time_end }}" data-patient_name="{{ $appointment->User->name }}" class="btn btn-outline-success btn-circle btn-sm" data-toggle="modal" data-target="#EDITRDVModal"><i class="fas fa-check"></i></a>
                            @endcan
                            @can('delete appointment')
-                           <a class="btn btn-outline-danger btn-circle btn-sm" data-toggle="modal" data-target="#DeleteModal" data-link="{{ url('appointment/delete/'.$appointment->id) }}"><i class="fas fa-trash"></i></a>    
-                           @endcan                  
+                           <a class="btn btn-outline-danger btn-circle btn-sm" data-toggle="modal" data-target="#DeleteModal" data-link="{{ url('appointment/delete/'.$appointment->id) }}"><i class="fas fa-trash"></i></a>
+                           @endcan
                         </td>
                      </tr>
                      @empty
@@ -317,6 +447,7 @@
    </div>
 </div>
 @endrole
+
 <!-- EDIT Appointment Modal-->
 <div class="modal fade" id="EDITRDVModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">

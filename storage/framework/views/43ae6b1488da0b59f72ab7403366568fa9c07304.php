@@ -16,6 +16,15 @@
             
             <form method="post" action="<?php echo e(route('drug.store')); ?>">
                <div class="form-group">
+                  <label for="drug-category">Category</label>
+                  <select name="category_id" class="form-control" id="">
+                     <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                     <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
+                         
+                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                  </select>
+               </div>
+               <div class="form-group">
                   <label for="exampleInputEmail1"><?php echo e(__('sentence.Trade Name')); ?> *</label>
                   <input type="text" class="form-control" name="trade_name" id="TradeName" aria-describedby="TradeName">
                   <?php echo e(csrf_field()); ?>

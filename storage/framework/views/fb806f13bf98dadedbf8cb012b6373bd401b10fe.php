@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title'); ?>
 <?php echo e(__('sentence.Dashboard')); ?>
 
@@ -152,85 +150,215 @@
       </div>
    </div>
 </div>
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><?php echo e(__('sentence.New Appointments')); ?></div>
+                   <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_appointments_today->count()); ?></div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- Earnings (Annual) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-success shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?php echo e(__('sentence.Total Appointments')); ?></div>
+                   <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_appointments); ?></div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- Tasks Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><?php echo e(__('sentence.New Patients')); ?></div>
+                   <div class="row no-gutters align-items-center">
+                      <div class="col-auto">
+                         <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo e($total_patients_today); ?></div>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+       <div class="card border-left-warning shadow h-100 py-2">
+          <div class="card-body">
+             <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                   <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><?php echo e(__('sentence.All Patients')); ?></div>
+                   <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_patients); ?></div>
+                </div>
+                <div class="col-auto">
+                   <i class="fas fa-users fa-2x text-gray-300"></i>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>
+
 
 <?php endif; ?>
 
-<?php if(auth()->check() && auth()->user()->hasRole('Receptionist')): ?>
 
+<?php if(auth()->check() && auth()->user()->hasRole('Doctor|Patient')): ?>
 <div class="row">
-
-   <!-- Earnings (Monthly) Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-primary shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><?php echo e(__('sentence.New Appointments')); ?></div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_appointments_today->count()); ?></div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Earnings (Annual) Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><?php echo e(__('sentence.Total Appointments')); ?></div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_appointments); ?></div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Tasks Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-info shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><?php echo e(__('sentence.New Patients')); ?></div>
-                  <div class="row no-gutters align-items-center">
-                     <div class="col-auto">
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo e($total_patients_today); ?></div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-user-plus fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
-   <!-- Pending Requests Card Example -->
-   <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-warning shadow h-100 py-2">
-         <div class="card-body">
-            <div class="row no-gutters align-items-center">
-               <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><?php echo e(__('sentence.All Patients')); ?></div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_patients); ?></div>
-               </div>
-               <div class="col-auto">
-                  <i class="fas fa-users fa-2x text-gray-300"></i>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><?php echo e(__('Today Appointments')); ?></div>
+                    <div class="row no-gutters align-items-center">
+                       <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo e($total_appointments_today->count()); ?></div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- Pending Requests Card Example -->
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><?php echo e(__('Appointments')); ?></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_appointments); ?></div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><?php echo e(__('Your Prescriptions')); ?></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($total_prescriptions); ?></div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-calendar-check fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
 </div>
 
 <?php endif; ?>
-
+<?php if(auth()->check() && auth()->user()->hasRole('Pharmist')): ?>
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><?php echo e(__('Total Prescriptions')); ?></div>
+                    <div class="row no-gutters align-items-center">
+                       <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo e($total_prescriptions); ?></div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- Pending Requests Card Example -->
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><?php echo e(__('Drugs')); ?></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($drugs); ?></div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+</div>
+<?php endif; ?>
+<?php if(auth()->check() && auth()->user()->hasRole('Supervisor')): ?>
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><?php echo e(__('Total Request Furniture')); ?></div>
+                    <div class="row no-gutters align-items-center">
+                       <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo e($request); ?></div>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-user-plus fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <!-- Pending Requests Card Example -->
+     <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+           <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                 <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><?php echo e(__('Approved Furniture Request')); ?></div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo e($approvedreq); ?></div>
+                 </div>
+                 <div class="col-auto">
+                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+</div>
+<?php endif; ?>
 <?php if(auth()->check() && auth()->user()->hasRole('Admin|Receptionist')): ?>
 
 <div class="row">
@@ -304,8 +432,8 @@
                            <a data-rdv_id="<?php echo e($appointment->id); ?>" data-rdv_date="<?php echo e($appointment->date->format('d M Y')); ?>" data-rdv_time_start="<?php echo e($appointment->time_start); ?>" data-rdv_time_end="<?php echo e($appointment->time_end); ?>" data-patient_name="<?php echo e($appointment->User->name); ?>" class="btn btn-outline-success btn-circle btn-sm" data-toggle="modal" data-target="#EDITRDVModal"><i class="fas fa-check"></i></a>
                            <?php endif; ?>
                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete appointment')): ?>
-                           <a class="btn btn-outline-danger btn-circle btn-sm" data-toggle="modal" data-target="#DeleteModal" data-link="<?php echo e(url('appointment/delete/'.$appointment->id)); ?>"><i class="fas fa-trash"></i></a>    
-                           <?php endif; ?>                  
+                           <a class="btn btn-outline-danger btn-circle btn-sm" data-toggle="modal" data-target="#DeleteModal" data-link="<?php echo e(url('appointment/delete/'.$appointment->id)); ?>"><i class="fas fa-trash"></i></a>
+                           <?php endif; ?>
                         </td>
                      </tr>
                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -321,6 +449,7 @@
    </div>
 </div>
 <?php endif; ?>
+
 <!-- EDIT Appointment Modal-->
 <div class="modal fade" id="EDITRDVModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
@@ -363,4 +492,5 @@
 <?php $__env->startSection('footer'); ?>
 
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\123\Documents\GitHub\docrino\resources\views/home.blade.php ENDPATH**/ ?>

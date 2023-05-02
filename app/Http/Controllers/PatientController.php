@@ -210,7 +210,7 @@ class PatientController extends Controller
 
     	$patient = User::findOrfail($id);
         $prescriptions = Prescription::where('user_id' ,$id)->OrderBy('id','Desc')->get();
-        $appointments = Appointment::where('user_id' ,$id)->OrderBy('id','Desc')->get();
+        $appointments = Booking::where('patient_id' ,$id)->OrderBy('id','Desc')->paginate();
         $documents = Document::where('user_id' ,$id)->OrderBy('id','Desc')->get();
         $invoices = Billing::where('user_id' ,$id)->OrderBy('id','Desc')->get();
         $historys = History::where('user_id' ,$id)->OrderBy('id','Desc')->get();
