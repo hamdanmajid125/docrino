@@ -10,6 +10,6 @@ class Prescription_test extends Model
 
 
      public function Test(){
-    	        return $this->hasOne('App\Test', 'id', 'test_id');
+    	        return $this->belongsTo('App\Test');
     }
 }

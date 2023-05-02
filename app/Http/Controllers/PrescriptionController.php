@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Drug;
 use App\User;
 use App\Patient;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Buyer;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Prescription;
 use App\Prescription_drug;
 use App\Prescription_test;
@@ -52,6 +56,7 @@ class PrescriptionController extends Controller
         $prescription = new Prescription;
 
         $prescription->user_id = $request->patient_id;
+        $prescription->doctor_id = Auth::user()->id;
         $prescription->reference = 'p' . rand(10000, 99999);
 
         $prescription->save();
@@ -126,15 +131,51 @@ class PrescriptionController extends Controller
 
         $prescription = Prescription::findOrfail($id);
         $prescription_drugs = Prescription_drug::where('prescription_id', $id)->get();
+        $prescription_tests = Prescription_test::where('prescription_id', $id)->get();
 
         view()->share(['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
+        
 
+        $user = User::find($prescription->user_id);
+        $customer = new Buyer([
+            'name'          => $user->name,
+            'address' => $user->address,
+            'phone' => $user->phone,
+            'custom_fields' => [
+                'email' => $user->email,
+                'age' => $user->age,
+                'gender' => $user->gender,
+            ],
+        ]);
 
+        $items = [];
+        if (!$prescription_drugs->isEmpty()) {
+            foreach ($prescription_drugs as $drug) {
+                array_push($items, (new InvoiceItem())->title($drug->Drug->trade_name)->pricePerUnit($drug->Drug->price));
+               
+            }
+        }
+        if (!$prescription_tests->isEmpty()) {
+            foreach ($prescription_tests as $test) {
+                array_push($items, (new InvoiceItem())->title($test->Test->test_name)->pricePerUnit($test->Test->price));
+               
+            }
+        }
+        $notes = [
+            'Keep yourself healthy'
+        ];
+        $notes = implode("<br>", $notes);
+    
 
-        $pdf = PDF::loadView('prescription.pdf_view', ['prescription' => $prescription, 'prescription_drugs' => $prescription_drugs]);
-        $pdf->setOption('viewport-size', '1024x768');
-        // download PDF file with download method
-        return $pdf->download($prescription->User->name . '_pdf.pdf');
+        $invoice = Invoice::make()
+            ->buyer($customer)
+            ->dateFormat('m/d/Y')
+            ->serialNumberFormat('{SEQUENCE}/{SERIES}')
+            ->currencyThousandsSeparator('.')
+            ->currencyDecimalPoint(',')
+            ->addItems($items);
+
+        return $invoice->stream();
     }
 
 

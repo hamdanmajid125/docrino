@@ -39,6 +39,9 @@
                             <input type="submit" value="{{ __('sentence.Edit Prescription') }}"
                                 class="btn btn-warning btn-block" align="center">
                         </div>
+                        <div class="form-group">
+                            <a class="btn btn-success w-100" href="{{ route('generatebill',$prescription->id) }}">Generate Bill</a>
+                        </div>
                     </div>
                 </div>
             </div>

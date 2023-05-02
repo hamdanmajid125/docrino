@@ -72,37 +72,26 @@
 <?php $__env->startSection('footer'); ?>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script type="text/javascript">
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function() {
-            $('.multiselect-doctorino').select2();
-        });
-
-        $(document).ready(function() {
-            $('.multiselect-drug').select2();
-        });
-    </script>
 
 
     <script type="text/template" id="drugs_labels">
    <section class="field-group">
                          <div class="row">
                             <div class="col-md-6">
-                                <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
-                                  <option value=""><?php echo e(__('Select Drug')); ?>...</option>
-                                  <?php $__currentLoopData = $drugs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                      <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->trade_name); ?></option>
+                                <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drugcat" tabindex="-1" aria-hidden="true" required onchange="changeCategory(this)">
+                                  <option value=""><?php echo e(__('Select Drug Category')); ?>...</option>
+                                  <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                      <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                            </div>
-                             <div class="col-md-6">
-                                  <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drug" tabindex="-1" aria-hidden="true" required>
-                                    <option value=""><?php echo e(__('Select Drug Type')); ?>...</option>
-                                    <?php $__currentLoopData = $drug_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $drug): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($drug->id); ?>"><?php echo e($drug->name); ?></option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                  </select>
-                             </div>
+                            <div class="col-md-6">
+                                <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
+                                  <option value=""><?php echo e(__('Select Drug')); ?>...</option>
+                                
+                                </select>
+                           </div>
+                           
                             </div>
                             <br>
                             <div class="row">
@@ -178,11 +167,38 @@
                                     <hr color="#a1f1d4">
                               </div>
                          </div>
+                        </section>
 </script>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('header'); ?>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('js'); ?>
+    <script>
+        function changeCategory(e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo e(route("getdrug")); ?>',
+                data: {
+                    _token: "<?php echo e(csrf_token()); ?>",
+                    category: e.value
+                },
+                success: function(response) {
+                    if(response.status){
+                        console.log(response.drugs)
+                    }
+                }
+            });
+
+        }
+    </script>
+<?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HAMDAN\Documents\GitHub\docrino\resources\views/prescription/create.blade.php ENDPATH**/ ?>

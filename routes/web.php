@@ -5,6 +5,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\User;
 use App\StockCategory;
+
+use App\DrugType;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,11 +19,296 @@ use App\StockCategory;
 */
 
 Route::get('/test', function () {
-   $role = Role::findByName('Doctor');
-   $permissions = ['view doctor','view appointment'];
-   $role->givePermissionTo($permissions);
+    $drug = [
+        [
+            'name' => 'Analgesics',
+            'drugs' => [
+                [
+                    'trade_name' => 'Advil',
+                    'generic_name' => 'Advil',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Protate',
+                    'generic_name' => 'Protate',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antacids',
+            'drugs' => [
+                [
+                    'trade_name' => 'Gaviscon',
+                    'generic_name' => 'Gaviscon',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Milk of Magnesium',
+                    'generic_name' => 'Milk of Magnesium',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antionxiety Drugs',
+            'drugs' => [
+                [
+                    'trade_name' => 'Prozac',
+                    'generic_name' => 'Prozac',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Lexapro',
+                    'generic_name' => 'Lexapro',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antiarrhythmics',
+            'drugs' => [
+                [
+                    'trade_name' => 'Rythmol',
+                    'generic_name' => 'Rythmol',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Temocarid',
+                    'generic_name' => 'Temocarid',
+                    'price' => 10
+                ]
+            ]
+        ],
 
+        [
+            'name' => 'Antibacterial',
+            'drugs' => [
+                [
+                    'trade_name' => 'Flagyl',
+                    'generic_name' => 'Flagyl',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Cipro',
+                    'generic_name' => 'Cipro',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antibiotics',
+            'drugs' => [
+                [
+                    'trade_name' => 'Augmentin',
+                    'generic_name' => 'Augmentin',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Levaquin',
+                    'generic_name' => 'Levaquin',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Anticoagulants',
+            'drugs' => [
+                [
+                    'trade_name' => 'Xarelto',
+                    'generic_name' => 'Xarelto',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Pradaxa',
+                    'generic_name' => 'Pradaxa',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antidepressants',
+            'drugs' => [
+                [
+                    'trade_name' => 'Dusulepin',
+                    'generic_name' => 'Dusulepin',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Escitalopram',
+                    'generic_name' => 'Escitalopram',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antidiarrheals',
+            'drugs' => [
+                [
+                    'trade_name' => 'Loperamide',
+                    'generic_name' => 'Loperamide',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Kaopectate',
+                    'generic_name' => 'Kaopectate',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antiemetics',
+            'drugs' => [
+                [
+                    'trade_name' => 'Dexamethasone',
+                    'generic_name' => 'Dexamethasone',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Dulasetron',
+                    'generic_name' => 'Dulasetron',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antifungal',
+            'drugs' => [
+                [
+                    'trade_name' => 'Nystatin',
+                    'generic_name' => 'Nystatin',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Amphothericin',
+                    'generic_name' => 'Amphothericin',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antihistamines',
+            'drugs' => [
+                [
+                    'trade_name' => 'Astelin',
+                    'generic_name' => 'Astelin',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Claritin',
+                    'generic_name' => 'Claritin',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antihypertensive',
+            'drugs' => [
+                [
+                    'trade_name' => 'Norvase',
+                    'generic_name' => 'Norvase',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Sular',
+                    'generic_name' => 'Sular',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Corticosteroid',
+            'drugs' => [
+                [
+                    'trade_name' => 'Celeston',
+                    'generic_name' => 'Celeston',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Decadron',
+                    'generic_name' => 'Decadron',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Antiviral',
+            'drugs' => [
+                [
+                    'trade_name' => 'Peramivir',
+                    'generic_name' => 'Peramivir',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Normir',
+                    'generic_name' => 'Normir',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Lexative',
+            'drugs' => [
+                [
+                    'trade_name' => 'Sodium picosulphate',
+                    'generic_name' => 'Sodium picosulphate',
+                    'price' => 10
+                ],
+            ]
+        ],
+        [
+            'name' => 'Sedatives',
+            'drugs' => [
+                [
+                    'trade_name' => 'Midazolam',
+                    'generic_name' => 'Midazolam',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Pentobarbital',
+                    'generic_name' => 'Pentobarbital',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Tranquilizers',
+            'drugs' => [
+                [
+                    'trade_name' => 'Xanax',
+                    'generic_name' => 'Xanax',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Valcum',
+                    'generic_name' => 'Valcum',
+                    'price' => 10
+                ]
+            ]
+        ],
+        [
+            'name' => 'Hypoglycemic',
+            'drugs' => [
+                [
+                    'trade_name' => 'Sulfonylureas',
+                    'generic_name' => 'Sulfonylureas',
+                    'price' => 10
+                ],
+                [
+                    'trade_name' => 'Biguanides',
+                    'generic_name' => 'Biguanides',
+                    'price' => 10
+                ]
+            ]
+        ]
 
+    ];
+    foreach($drug as $key => $item){
+        $drug_type = DrugType::create(['name'=>$item['name']]);
+        foreach ($item['drugs'] as $key1 => $value) {
+            $drug_type->drugs()->create($value);
+        }
+    }
 });
 
 Route::get('/', function () {
@@ -78,6 +365,7 @@ Route::post('/appointment/edit', 'AppointmentController@store_edit')->name('appo
 
 //Drugs
 Route::get('/drug/create', 'DrugController@create')->name('drug.create')->middleware(['role_or_permission:Admin|create drug']);
+Route::post('/drug/getdrug', 'DrugController@getdrug')->name('getdrug');
 Route::post('/drug/create', 'DrugController@store')->name('drug.store');
 Route::get('/drug/edit/{id}', 'DrugController@edit')->where('id', '[0-9]+')->name('drug.edit')->middleware(['role_or_permission:Admin|edit drug']);
 Route::post('/drug/edit', 'DrugController@store_edit')->name('drug.store_edit');
@@ -95,6 +383,7 @@ Route::get('/test/delete/{id}', 'TestController@destroy')->where('id', '[0-9]+')
 
 //Prescriptions
 Route::get('/prescription/create', 'PrescriptionController@create')->name('prescription.create')->middleware(['role_or_permission:Admin|create prescription']);
+Route::get('/prescription/generatebill/{id}', 'PrescriptionController@pdf')->name('generatebill')->middleware(['role_or_permission:Admin|edit prescription']);
 Route::post('/prescription/create', 'PrescriptionController@store')->name('prescription.store');
 Route::get('/prescription/all', 'PrescriptionController@all')->name('prescription.all')->middleware(['role_or_permission:Admin|view all prescriptions']);
 Route::get('/prescription/view/{id}', 'PrescriptionController@view')->where('id', '[0-9]+')->name('prescription.view')->middleware(['role_or_permission:Admin|view prescription']);

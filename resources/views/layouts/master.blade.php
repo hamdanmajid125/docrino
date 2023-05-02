@@ -646,6 +646,8 @@
 
     @yield('footer')
 
+    @stack('js')
+
 </body>
 
 </html>

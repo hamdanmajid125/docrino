@@ -7,6 +7,8 @@ use App\User;
 use App\Patient;
 use App\Prescription;
 use App\Booking;
+use App\Appointment;
+
 use App\Billing;
 use App\Document;
 use App\History;

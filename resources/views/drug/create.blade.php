@@ -15,6 +15,15 @@
             
             <form method="post" action="{{ route('drug.store') }}">
                <div class="form-group">
+                  <label for="drug-category">Category</label>
+                  <select name="category_id" class="form-control" id="">
+                     @foreach ($category as $item)
+                     <option value="{{ $item->id }}">{{ $item->name }}</option>
+                         
+                     @endforeach
+                  </select>
+               </div>
+               <div class="form-group">
                   <label for="exampleInputEmail1">{{ __('sentence.Trade Name') }} *</label>
                   <input type="text" class="form-control" name="trade_name" id="TradeName" aria-describedby="TradeName">
                   {{ csrf_field() }}

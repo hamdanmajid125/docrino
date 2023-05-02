@@ -70,37 +70,26 @@
 @section('footer')
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script type="text/javascript">
-        // In your Javascript (external .js resource or <script> tag)
-        $(document).ready(function() {
-            $('.multiselect-doctorino').select2();
-        });
-
-        $(document).ready(function() {
-            $('.multiselect-drug').select2();
-        });
-    </script>
 
 
     <script type="text/template" id="drugs_labels">
    <section class="field-group">
                          <div class="row">
                             <div class="col-md-6">
-                                <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
-                                  <option value="">{{ __('Select Drug') }}...</option>
-                                  @foreach($drugs as $drug)
-                                      <option  value="{{ $drug->id }}">{{ $drug->trade_name }}</option>
+                                <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drugcat" tabindex="-1" aria-hidden="true" required onchange="changeCategory(this)">
+                                  <option value="">{{ __('Select Drug Category') }}...</option>
+                                  @foreach($drug_type as $drug)
+                                      <option value="{{ $drug->id }}">{{ $drug->name }}</option>
                                   @endforeach
                                 </select>
                            </div>
-                             <div class="col-md-6">
-                                  <select class="form-control multiselect-drug" name="druginfo[drug_type][]" id="drug" tabindex="-1" aria-hidden="true" required>
-                                    <option value="">{{ __('Select Drug Type') }}...</option>
-                                    @foreach($drug_type as $drug)
-                                        <option value="{{ $drug->id }}">{{ $drug->name }}</option>
-                                    @endforeach
-                                  </select>
-                             </div>
+                            <div class="col-md-6">
+                                <select class="form-control multiselect-drug" name="druginfo[trade_name][]" id="drug" tabindex="-1" aria-hidden="true" required>
+                                  <option value="">{{ __('Select Drug') }}...</option>
+                                
+                                </select>
+                           </div>
+                           
                             </div>
                             <br>
                             <div class="row">
@@ -183,3 +172,34 @@
 @section('header')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
+
+@push('js')
+    <script>
+        function changeCategory(e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("getdrug") }}',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    category: e.value
+                },
+                success: function(response) {
+                    if(response.status){
+                        console.log(response.drugs)
+                        response.drugs.forEach(obj => {
+
+                            
+                            
+                        });
+                    }
+                }
+            });
+
+        }
+    </script>
+@endpush

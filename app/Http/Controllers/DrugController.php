@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Drug;
+use App\DrugType;
 use Redirect;
 class DrugController extends Controller{
 
@@ -12,10 +13,16 @@ class DrugController extends Controller{
         $this->middleware('auth');
     }
 
+    public function getdrug(Request $request){
+        $drugs = Drug::where('category_id',$request->category)->get();
+        return response()->json(['drugs'=>$drugs,'status'=>true]);
+
+    }
 
     //
     public function create(){
-    	return view('drug.create');
+        $category = DrugType::all();
+    	return view('drug.create',compact('category'));
 
     }
 
@@ -25,11 +32,12 @@ class DrugController extends Controller{
         	'trade_name' => 'required',
         	'generic_name' => 'required',
     	]);
-
-    	$drug = Drug::updateOrCreate(
-		    ['trade_name' => $request->trade_name, 'generic_name' => $request->generic_name],
-		    ['note' => $request->note]
-		);
+        $drug = new Drug;
+        $drug->trade_name = $request->trade_name;
+        $drug->generic_name = $request->generic_name;
+        $drug->note = $request->note;
+        $drug->category_id = $request->category_id;
+    	$drug->save();
 
     	return Redirect::route('drug.all')->with('success', __('sentence.Drug added Successfully'));
     }
